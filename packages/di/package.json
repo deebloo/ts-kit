@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/di",
-  "version": "1.0.2",
+  "version": "0.0.0",
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
     "dest": "../../@ts-kit/di",
