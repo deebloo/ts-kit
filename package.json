@@ -1,25 +1,27 @@
 {
   "name": "ts-toolkit",
-  "version": "1.0.2",
+  "version": "0.0.0",
   "description": "Simple state management for async data",
   "scripts": {
     "STATE_CONTAINER": "---------------------------",
     "test:state-container": "jest --watchAll --verbose=false -c packages/state-container/jest.config.js",
     "test:ci:state-container": "jest -c packages/state-container/jest.config.js",
     "build:state-container": "ng-packagr -p packages/state-container/package.json",
+    "release:state-container": "npm run build:state-container && cd @ts-kit/state-container && npm release",
     "DI": "---------------------------",
     "test:di": "jest --watchAll --verbose=false -c packages/di/jest.config.js",
     "test:ci:di": "jest -c packages/di/jest.config.js",
-    "build:di": "ng-packagr -p packages/di/package.json"
+    "build:di": "ng-packagr -p packages/di/package.json",
+    "release:di": "npm run build:di && cd @ts-kit/di && npm release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deebloo/state-container.git"
+    "url": "git+https://github.com/deebloo/ts-kit.git"
   },
   "author": "deebloo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/deebloo/state-container/issues"
+    "url": "https://github.com/deebloo/ts-kit/issues"
   },
   "devDependencies": {
     "@angular/compiler": "^7.0.4",

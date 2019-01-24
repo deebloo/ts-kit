@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/di",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
     "dest": "../../@ts-kit/di",
@@ -11,11 +11,11 @@
   "description": "Dependency Injection in ~800 bytes ",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deebloo/state-container.git"
+    "url": "git+https://github.com/deebloo/ts-kit.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/deebloo/state-container/issues"
+    "url": "https://github.com/deebloo/ts-kit/issues"
   }
 }
