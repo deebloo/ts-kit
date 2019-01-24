@@ -1,18 +1,23 @@
 {
   "name": "ts-toolkit",
   "version": "0.0.0",
-  "description": "Simple state management for async data",
+  "description": "A set of packages to help you be more productive",
   "scripts": {
     "STATE_CONTAINER": "---------------------------",
     "test:state-container": "jest --watchAll --verbose=false -c packages/state-container/jest.config.js",
     "test:ci:state-container": "jest -c packages/state-container/jest.config.js",
     "build:state-container": "ng-packagr -p packages/state-container/package.json",
-    "release:state-container": "npm run build:state-container && cd @ts-kit/state-container && npm publish",
+    "release:state-container": "npm run build:state-container && cd @ts-kit/state-container && npm publish --access public",
     "DI": "---------------------------",
     "test:di": "jest --watchAll --verbose=false -c packages/di/jest.config.js",
     "test:ci:di": "jest -c packages/di/jest.config.js",
     "build:di": "ng-packagr -p packages/di/package.json",
-    "release:di": "npm run build:di && cd @ts-kit/di && npm publish"
+    "release:di": "npm run build:di && cd @ts-kit/di && npm publish --access public",
+    "TYPE_UTILS": "---------------------------",
+    "test:type-utils": "jest --watchAll --verbose=false -c packages/di/jest.config.js",
+    "test:ci:type-utils": "jest -c packages/type-utils/jest.config.js",
+    "build:type-utils": "ng-packagr -p packages/type-utils/package.json",
+    "release:type-utils": "npm run build:type-utils && cd @ts-kit/type-utils && npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -24,8 +29,8 @@
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
   "devDependencies": {
-    "@angular/compiler": "^7.0.4",
-    "@angular/compiler-cli": "^7.0.4",
+    "@angular/compiler": "^7.1.0",
+    "@angular/compiler-cli": "^7.1.0",
     "@angular/core": "^7.1.0",
     "@types/jest": "^23.3.9",
     "jest": "^23.6.0",

@@ -12,7 +12,7 @@ describe('State', () => {
       type: 'DECREMENT' = 'DECREMENT';
     }
 
-    const manager = new StateContainer<number, Increment | Decrement>(0, (state, action) => {
+    const manager = new StateContainer<number, Increment | Decrement>((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
@@ -22,7 +22,7 @@ describe('State', () => {
       }
 
       return state;
-    });
+    }, 0);
 
     manager.update(new Increment());
     manager.update(new Increment());
@@ -40,7 +40,7 @@ describe('State', () => {
       type: 'DECREMENT' = 'DECREMENT';
     }
 
-    const manager = new StateContainer<number, Increment | Decrement>(0, (state, action) => {
+    const manager = new StateContainer<number, Increment | Decrement>((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
@@ -50,7 +50,7 @@ describe('State', () => {
       }
 
       return state;
-    });
+    }, 0);
 
     manager.update(() => new Increment());
     manager.update(() => new Increment());
@@ -64,14 +64,14 @@ describe('State', () => {
       type: 'INCREMENT' = 'INCREMENT';
     }
 
-    const manager = new StateContainer(0, (state, action) => {
+    const manager = new StateContainer((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
       }
 
       return state;
-    });
+    }, 0);
 
     manager.update(
       () =>
@@ -95,14 +95,15 @@ describe('State', () => {
       type: 'INCREMENT' = 'INCREMENT';
     }
 
-    const manager = new StateContainer(0, (state, action) => {
+    const manager = new StateContainer((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
       }
 
       return state;
-    });
+    }, 0);
+
     manager.update(
       () =>
         new Observable(subscriber => {
@@ -118,14 +119,14 @@ describe('State', () => {
       type: 'INCREMENT' = 'INCREMENT';
     }
 
-    const manager = new StateContainer(0, (state, action) => {
+    const manager = new StateContainer((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
       }
 
       return state;
-    });
+    }, 0);
 
     let callCount = 0;
 
@@ -157,7 +158,6 @@ describe('State', () => {
     });
 
     const manager = new StateContainer<number, Increment>(
-      0,
       (state, action) => {
         switch (action.type) {
           case 'INCREMENT':
@@ -166,6 +166,7 @@ describe('State', () => {
 
         return state;
       },
+      0,
       dispatcher
     );
 

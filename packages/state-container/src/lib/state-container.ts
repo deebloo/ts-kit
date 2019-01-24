@@ -17,8 +17,8 @@ export class StateContainer<T, A extends Action = Action> {
   );
 
   constructor(
-    private initValue: T,
     reducer: (s: T, action: A) => T,
+    private initValue: T,
     private dispatcher: Subject<A> = new Subject<A>()
   ) {
     this.dispatcher.pipe(scan<A, T>(reducer, initValue)).subscribe((state: T) => {

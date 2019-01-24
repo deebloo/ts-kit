@@ -1,29 +1,24 @@
 {
-  "name": "@ts-kit/di",
+  "name": "@ts-kit/type-utils",
   "version": "1.0.2",
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../@ts-kit/di",
+    "dest": "../../@ts-kit/type-utils",
     "lib": {
       "entryFile": "src/public_api.ts"
     }
   },
-  "description": "Dependency Injection in ~800 bytes ",
+  "description": "Type utilities for TypeScript",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deebloo/ts-kit.git"
   },
   "keywords": [
-    "TypeScript",
-    "DI",
-    "Dependency Injection"
+    "TypeScript"
   ],
   "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
-  },
-  "peerDependencies": {
-    "rxjs": "^6.0.0"
   }
 }

@@ -13,12 +13,14 @@
     "type": "git",
     "url": "git+https://github.com/deebloo/ts-kit.git"
   },
+  "keywords": [
+    "TypeScript",
+    "state management",
+    "rxjs"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
-  },
-  "peerDependencies": {
-    "rxjs": "^6.0.0"
   }
 }

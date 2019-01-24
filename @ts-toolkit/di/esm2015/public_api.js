@@ -1,7 +1,0 @@
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-export { Injector } from './lib/injector';
-export { Injectable } from './lib/injectable';
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljX2FwaS5qcyIsInNvdXJjZVJvb3QiOiJuZzovL0B0cy10b29sa2l0L2RpLyIsInNvdXJjZXMiOlsicHVibGljX2FwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQUEsT0FBTyxFQUFFLFFBQVEsRUFBbUIsTUFBTSxnQkFBZ0IsQ0FBQztBQUUzRCxPQUFPLEVBQUUsVUFBVSxFQUFvQixNQUFNLGtCQUFrQixDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IHsgSW5qZWN0b3IsIEluamVjdG9yT3B0aW9ucyB9IGZyb20gJy4vbGliL2luamVjdG9yJztcbmV4cG9ydCB7IFByb3ZpZGVyLCBPdmVycmlkZVByb3ZpZGVyIH0gZnJvbSAnLi9saWIvcHJvdmlkZXInO1xuZXhwb3J0IHsgSW5qZWN0YWJsZSwgSW5qZWN0YWJsZUNvbmZpZyB9IGZyb20gJy4vbGliL2luamVjdGFibGUnO1xuIl19
