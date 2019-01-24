@@ -1,9 +1,9 @@
-# StateContainer [![CircleCI](https://circleci.com/gh/deebloo/state-container.svg?style=svg)](https://circleci.com/gh/deebloo/state-container)
+# StateContainer
 
 ### A state container is created by defining an initial state and a reducer
 
 ```TS
-import { StateContainer, Action } from '@deebloo/state-container';
+import { StateContainer, Action } from '@ts-toolkit/state-container';
 
 const enum CounterTodoType { Increment, Decrement }
 

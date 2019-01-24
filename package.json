@@ -3,9 +3,14 @@
   "version": "1.0.2",
   "description": "Simple state management for async data",
   "scripts": {
+    "STATE_CONTAINER": "---------------------------",
     "test:state-container": "jest --watchAll --verbose=false -c packages/state-container/jest.config.js",
     "test:ci:state-container": "jest",
-    "build:state-container": "ng-packagr -p packages/state-container/package.json"
+    "build:state-container": "ng-packagr -p packages/state-container/package.json",
+    "DI": "---------------------------",
+    "test:di": "jest --watchAll --verbose=false -c packages/di/jest.config.js",
+    "test:ci:di": "jest",
+    "build:di": "ng-packagr -p packages/di/package.json"
   },
   "repository": {
     "type": "git",
