@@ -2,8 +2,6 @@
 
 A set of packages for helping with development
 
-#### Packages:
-
 | Package                                             |
 | --------------------------------------------------- |
 | [@ts-kit/di](packages/di)                           |
