@@ -1,14 +1,14 @@
 {
-  "name": "@ts-toolkit/di",
-  "version": "1.0.2",
+  "name": "@ts-kit/di",
+  "version": "1.0.0",
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../@ts-toolkit/di",
+    "dest": "../../@ts-kit/di",
     "lib": {
       "entryFile": "src/public_api.ts"
     }
   },
-  "description": "Simple state management for async data",
+  "description": "Dependency Injection in ~800 bytes ",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deebloo/state-container.git"

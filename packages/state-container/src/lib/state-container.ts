@@ -21,7 +21,7 @@ export class StateContainer<T, A extends Action = Action> {
     reducer: (s: T, action: A) => T,
     private dispatcher: Subject<A> = new Subject<A>()
   ) {
-    this.dispatcher.pipe(scan<A, T>(reducer, initValue)).subscribe(state => {
+    this.dispatcher.pipe(scan<A, T>(reducer, initValue)).subscribe((state: T) => {
       this.stateManager.next(state);
     });
   }
@@ -31,7 +31,7 @@ export class StateContainer<T, A extends Action = Action> {
       src instanceof Function ? src() : src
     ).pipe(shareReplay(1));
 
-    result.subscribe(action => {
+    result.subscribe((action: A) => {
       this.dispatcher.next(action);
     });
 

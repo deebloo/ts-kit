@@ -1,9 +1,9 @@
 {
-  "name": "@ts-toolkit/state-container",
-  "version": "1.0.2",
+  "name": "@ts-kit/state-container",
+  "version": "1.0.0",
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../@ts-toolkit/state-container",
+    "dest": "../../@ts-kit/state-container",
     "lib": {
       "entryFile": "src/public_api.ts"
     }

@@ -26,12 +26,14 @@ jobs:
     executor: node_env
     steps:
       - prepare_env
-      - run: npm run build
+      - run: npm run build:di
+      - run: npm run build:state-container
   test:
     executor: node_env
     steps:
       - prepare_env
-      - run: npm run test:ci
+      - run: npm run test:di:ci
+      - run: npm run test:state-container:ci
 
 workflows:
   version: 2
