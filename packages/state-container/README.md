@@ -11,7 +11,7 @@ npm i @ts-kit/di
 ##### A state container is created by defining an initial state and a reducer
 
 ```TS
-import { StateContainer, Action } from '@ts-toolkit/state-container';
+import { StateContainer, Action } from '@ts-kit/state-container';
 
 const enum CounterTodoType { Increment, Decrement }
 
