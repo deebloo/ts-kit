@@ -5,11 +5,11 @@
   "scripts": {
     "STATE_CONTAINER": "---------------------------",
     "test:state-container": "jest --watchAll --verbose=false -c packages/state-container/jest.config.js",
-    "test:ci:state-container": "jest",
+    "test:ci:state-container": "jest -c packages/state-container/jest.config.js",
     "build:state-container": "ng-packagr -p packages/state-container/package.json",
     "DI": "---------------------------",
     "test:di": "jest --watchAll --verbose=false -c packages/di/jest.config.js",
-    "test:ci:di": "jest",
+    "test:ci:di": "jest -c packages/di/jest.config.js",
     "build:di": "ng-packagr -p packages/di/package.json"
   },
   "repository": {
