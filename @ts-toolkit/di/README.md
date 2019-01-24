@@ -2,16 +2,10 @@
 
 Dependency Injection in ~800 bytes
 
-#### Installation:
-
-```BASH
-npm i @ts-kit/di
-```
-
 #### Example:
 
 ```TS
-import { Injector, Injectable } from '@ts-kit/di';
+import { Injector, Injectable } from '@ts-toolkit/di';
 
 // Write a plain ol JS class
 class FooService {

@@ -1,0 +1,27 @@
+{
+  "name": "@ts-toolkit/di",
+  "version": "1.0.2",
+  "description": "Simple state management for async data",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deebloo/state-container.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deebloo/state-container/issues"
+  },
+  "main": "bundles/ts-toolkit-di.umd.js",
+  "module": "fesm5/ts-toolkit-di.js",
+  "es2015": "fesm2015/ts-toolkit-di.js",
+  "esm5": "esm5/ts-toolkit-di.js",
+  "esm2015": "esm2015/ts-toolkit-di.js",
+  "fesm5": "fesm5/ts-toolkit-di.js",
+  "fesm2015": "fesm2015/ts-toolkit-di.js",
+  "typings": "ts-toolkit-di.d.ts",
+  "metadata": "ts-toolkit-di.metadata.json",
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^1.9.0"
+  }
+}

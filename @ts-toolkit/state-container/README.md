@@ -1,14 +1,6 @@
 # StateContainer
 
-#### Installation:
-
-```BASH
-npm i @ts-kit/di
-```
-
-#### Example:
-
-##### A state container is created by defining an initial state and a reducer
+### A state container is created by defining an initial state and a reducer
 
 ```TS
 import { StateContainer, Action } from '@ts-toolkit/state-container';
@@ -36,14 +28,14 @@ const container = new StateContainer<number, Increment | Decrement>(0, (state, a
 });
 ```
 
-##### Get state by subscribing to the value
+### Get state by subscribing to the value
 
 ```TS
 // A raw action
 container.value.subscribe(console.log);
 ```
 
-##### Update State by passing it a StateResult which is either:
+### Update State by passing it a StateResult which is either:
 
 ```TS
 // A raw action
