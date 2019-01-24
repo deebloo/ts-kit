@@ -1,0 +1,41 @@
+version: 2.1
+
+executors:
+  node_env:
+    docker:
+      - image: circleci/node:10.13.0-jessie-browsers
+    working_directory: ~/project
+
+commands:
+  prepare_env:
+    description: 'install and cache deps'
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: npm ci
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1s-dependencies-{{ checksum "package.json" }}
+
+jobs:
+  build:
+    executor: node_env
+    steps:
+      - prepare_env
+      - run: npm run build
+  test:
+    executor: node_env
+    steps:
+      - prepare_env
+      - run: npm run test:ci
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test

@@ -1,0 +1,24 @@
+{
+  "name": "@ts-toolkit/state-container",
+  "version": "1.0.2",
+  "ngPackage": {
+    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+    "dest": "../../@ts-toolkit/state-container",
+    "lib": {
+      "entryFile": "src/public_api.ts"
+    }
+  },
+  "description": "Simple state management for async data",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deebloo/state-container.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deebloo/state-container/issues"
+  },
+  "peerDependencies": {
+    "rxjs": "^6.0.0"
+  }
+}

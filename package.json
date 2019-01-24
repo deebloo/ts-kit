@@ -1,0 +1,32 @@
+{
+  "name": "ts-toolkit",
+  "version": "1.0.2",
+  "description": "Simple state management for async data",
+  "scripts": {
+    "test:state-container": "jest --watchAll --verbose=false -c packages/state-container/jest.config.js",
+    "test:ci:state-container": "jest",
+    "build:state-container": "ng-packagr -p packages/state-container/package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deebloo/state-container.git"
+  },
+  "author": "deebloo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deebloo/state-container/issues"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^7.0.4",
+    "@angular/compiler-cli": "^7.0.4",
+    "@angular/core": "^7.1.0",
+    "@types/jest": "^23.3.9",
+    "jest": "^23.6.0",
+    "ng-packagr": "^4.4.0",
+    "prettier": "^1.15.2",
+    "ts-jest": "^23.10.4",
+    "tsickle": "^0.34.0",
+    "typescript": "^3.1.6",
+    "rxjs": "^6.0.0"
+  }
+}
