@@ -1,4 +1,4 @@
-import { Injector, Provider, Injectable } from 'drill-di';
+import { Injector, Provider, Injectable } from '@ts-kit/di';
 
 describe('Injector', () => {
   it('should create a new instance of a single provider', () => {

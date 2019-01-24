@@ -1,4 +1,4 @@
-import { StateContainer, Action } from 'state-container';
+import { StateContainer, Action } from '@ts-kit/state-container';
 import { take, skip } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 

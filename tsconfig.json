@@ -16,7 +16,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "state-container": ["./packages/state-container/src/public_api.ts"]
+      "@ts-kit/*": ["./packages/*/src/public_api.ts"]
     }
   },
   "exclude": [".git", "node_modules"]
