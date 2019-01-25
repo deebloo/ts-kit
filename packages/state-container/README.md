@@ -3,7 +3,7 @@
 #### Installation:
 
 ```BASH
-npm i @ts-kit/di
+npm i @ts-kit/state-container
 ```
 
 #### Example:
