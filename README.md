@@ -6,4 +6,4 @@ A set of packages for helping with development
 | --------------------------------------------------- |
 | [@ts-kit/di](packages/di)                           |
 | [@ts-kit/state-container](packages/state-container) |
-| [@ts-kit/di](packages/type-utils)                   |
+| [@ts-kit/](packages/type-utils)                     |
