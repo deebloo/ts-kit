@@ -15,21 +15,13 @@ import { StateContainer, Action } from '@ts-kit/state-container';
 
 const enum CounterTodoType { Increment, Decrement }
 
-class Increment implements Action<CounterTodoType> {
-  readonly type = CounterTodoType.Increment;
-}
-
-class Decrement implements Action<CounterTodoType> {
-  readonly type = CounterTodoType.Decrement;
-}
-
 const container = new StateContainer((state, action) => {
   switch(action.type) {
     case CounterTodoType.Increment:
       return state + 1;
 
-    case CounterTodoType.Increment:
-      return state + 1;
+    case CounterTodoType.Decrement:
+      return state - 1;
   }
 
   return state;
