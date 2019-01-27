@@ -6,9 +6,9 @@ export interface Action<T = string | number> {
   payload?: any;
 }
 
-export type StateResult<A = Action> = A | Observable<A> | Promise<A>;
+export type StateChange<A = Action> = A | Observable<A> | Promise<A>;
 
-const stateResultToObservable = <A>(result: StateResult<A>): Observable<A> => {
+const stateResultToObservable = <A>(result: StateChange<A>): Observable<A> => {
   if (isObservable(result)) {
     return result;
   } else if (result instanceof Promise) {
@@ -36,9 +36,9 @@ export class StateContainer<T, A extends Action = Action> {
     });
   }
 
-  update(src: (() => StateResult<A>) | StateResult<A>): Observable<T> {
+  update(change: (() => StateChange<A>) | StateChange<A>): Observable<T> {
     const result: Observable<A> = stateResultToObservable(
-      src instanceof Function ? src() : src
+      change instanceof Function ? change() : change
     ).pipe(shareReplay(1));
 
     result.subscribe((action: A) => {
