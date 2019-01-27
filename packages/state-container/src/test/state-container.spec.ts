@@ -2,7 +2,7 @@ import { StateContainer, Action } from '@ts-kit/state-container';
 import { take, skip } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 
-describe('State', () => {
+describe('StateContainer', () => {
   it('should update when an action is passed directly to update', async () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
