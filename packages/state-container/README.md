@@ -28,8 +28,8 @@ const container = new StateContainer((state, action) => {
     case CounterTodoType.Increment:
       return state + 1;
 
-    case CounterTodoType.Increment:
-      return state + 1;
+    case CounterTodoType.Decrement:
+      return state - 1;
   }
 
   return state;
