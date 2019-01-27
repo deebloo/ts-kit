@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, isObservable, of, from, Subject } from 'rxjs';
-import { shareReplay, distinctUntilChanged, scan, concatMap, take } from 'rxjs/operators';
+import { shareReplay, distinctUntilChanged, scan, take, concatMapTo } from 'rxjs/operators';
 
 export interface Action<T = string | number> {
   type: T;
@@ -46,7 +46,7 @@ export class StateContainer<T, A extends Action = Action> {
     });
 
     return result.pipe(
-      concatMap(() => this.value),
+      concatMapTo(this.value),
       take(1)
     );
   }
