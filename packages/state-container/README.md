@@ -35,7 +35,7 @@ const container = new StateContainer((state, action) => {
 container.value.subscribe(console.log);
 ```
 
-##### Update State by passing it a StateResult which is either:
+##### Update State by passing it a StateChange which is either:
 
 ```TS
 // A raw action
