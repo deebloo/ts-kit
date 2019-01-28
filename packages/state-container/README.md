@@ -20,6 +20,10 @@ class Increment implements Action<CounterTodoType> {
   readonly type = CouterTodoType.Increment
 }
 
+class Decrement implements Action<CounterTodoType> {
+  readonly type = CouterTodoType.Decrement
+}
+
 const container = new StateContainer((state, action) => {
   switch(action.type) {
     case CounterTodoType.Increment:
