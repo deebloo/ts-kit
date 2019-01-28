@@ -1,5 +1,6 @@
 # StateContainer
 
+An idea for dispatching actions in an asynchronous manner. (Similar to Thunk)
 #### Installation:
 
 ```BASH
