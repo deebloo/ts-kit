@@ -1,6 +1,6 @@
 import { StateContainer, Action } from '@ts-kit/state-container';
 import { take, skip } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 
 describe('StateContainer', () => {
   it('should update when an action is passed directly to update', async () => {
@@ -27,6 +27,74 @@ describe('StateContainer', () => {
     manager.update(new Increment());
     manager.update(new Increment());
     manager.update(new Decrement());
+
+    expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
+  });
+
+  it('should update when a Promise resolving to an action is passed directly to update', async () => {
+    class Increment implements Action {
+      type: 'INCREMENT' = 'INCREMENT';
+    }
+
+    class Decrement implements Action {
+      type: 'DECREMENT' = 'DECREMENT';
+    }
+
+    const actionToPromise = <T extends Action>(action: T) =>
+      new Promise<T>(resolve => {
+        resolve(action);
+      });
+
+    const manager = new StateContainer<number, Increment | Decrement>((state, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+
+        case 'DECREMENT':
+          return state - 1;
+      }
+
+      return state;
+    }, 0);
+
+    manager.update(actionToPromise(new Increment()));
+    manager.update(actionToPromise(new Increment()));
+    manager.update(actionToPromise(new Decrement()));
+
+    expect(
+      await manager.value
+        .pipe(
+          skip(3),
+          take(1)
+        )
+        .toPromise()
+    ).toBe(1);
+  });
+
+  it('should update when an Observable resolving to an action is passed directly to update', async () => {
+    class Increment implements Action {
+      type: 'INCREMENT' = 'INCREMENT';
+    }
+
+    class Decrement implements Action {
+      type: 'DECREMENT' = 'DECREMENT';
+    }
+
+    const manager = new StateContainer<number, Increment | Decrement>((state, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+
+        case 'DECREMENT':
+          return state - 1;
+      }
+
+      return state;
+    }, 0);
+
+    manager.update(of(new Increment()));
+    manager.update(of(new Increment()));
+    manager.update(of(new Decrement()));
 
     expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
   });
