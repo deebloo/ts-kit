@@ -1,6 +1,6 @@
 import { StateContainer, Action } from '@ts-kit/state-container';
-import { take, skip } from 'rxjs/operators';
-import { Observable, Subject, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Observable, Subject, of, forkJoin } from 'rxjs';
 
 describe('StateContainer', () => {
   it('should update when an action is passed directly to update', async () => {
@@ -31,7 +31,7 @@ describe('StateContainer', () => {
     expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
   });
 
-  it('should update when a Promise resolving to an action is passed directly to update', async () => {
+  it('should update when a Promise resolving to an action is passed directly to update', () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
     }
@@ -57,18 +57,13 @@ describe('StateContainer', () => {
       return state;
     }, 0);
 
-    manager.update(actionToPromise(new Increment()));
-    manager.update(actionToPromise(new Increment()));
-    manager.update(actionToPromise(new Decrement()));
-
-    expect(
-      await manager.value
-        .pipe(
-          skip(3),
-          take(1)
-        )
-        .toPromise()
-    ).toBe(1);
+    forkJoin(
+      manager.update(actionToPromise(new Increment())),
+      manager.update(actionToPromise(new Increment())),
+      manager.update(actionToPromise(new Decrement()))
+    ).subscribe(async () => {
+      expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
+    });
   });
 
   it('should update when an Observable resolving to an action is passed directly to update', async () => {
@@ -127,7 +122,7 @@ describe('StateContainer', () => {
     expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
   });
 
-  it('should update when the state function returns a Promise', async () => {
+  it('should update when the state function returns a Promise', () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
     }
@@ -141,21 +136,11 @@ describe('StateContainer', () => {
       return state;
     }, 0);
 
-    manager.update(
-      () =>
-        new Promise(resolve => {
-          resolve(new Increment());
-        })
-    );
-
-    expect(
-      await manager.value
-        .pipe(
-          skip(1),
-          take(1)
-        )
-        .toPromise()
-    ).toBe(1);
+    manager
+      .update(() => new Promise(resolve => resolve(new Increment())))
+      .subscribe(async () => {
+        expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
+      });
   });
 
   it('should update when the state function returns an Observable', async () => {
