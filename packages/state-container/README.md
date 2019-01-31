@@ -8,8 +8,6 @@ An idea for dispatching actions in an asynchronous manner. (Similar to Thunk)
 npm i @ts-kit/state-container
 ```
 
-#### Example:
-
 ##### A state container is created by defining an initial state and a reducer
 
 ```TS
@@ -67,7 +65,7 @@ container.update(() => fetch('/my-api').then(() => new Increment()));
 container.update(() => of('Hello').pipe(map(() => new Increment())));
 ```
 
-#### Want to use this with NgRx, NGXS or another state management solution?
+## Want to use this with NgRx, NGXS or another state management solution?
 
 GO FOR IT! This package exposes a class called AsyncDispatcher which StateContainer extends. Use that to create your own state containers.
 
