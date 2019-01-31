@@ -81,11 +81,11 @@ export class NgrxStateContainer {
     action => this.store.dispatch(action)
   );
 
-  constructor(private store: Store<any>) {}
+  constructor(public value: Store<any>) {}
 
   update(change: (() => StateChange) | StateChange): Observable<any> {
     return this.asyncDispatcher.dispatch(change).pipe(
-      concatMapTo(this.store),
+      concatMapTo(this.value),
       take(1)
     );
   }
