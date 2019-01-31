@@ -1,6 +1,7 @@
 # StateContainer
 
 An idea for dispatching actions in an asynchronous manner. (Similar to Thunk)
+
 #### Installation:
 
 ```BASH
@@ -64,4 +65,21 @@ container.update(() => fetch('/my-api').then(() => new Increment()));
 ```TS
 // A function that returns an Observable that resolves to an action
 container.update(() => of('Hello').pipe(map(() => new Increment())));
+```
+
+#### Want to use this with NgRx, NGXS or another state management solution?
+
+GO FOR IT! This package exposes a class called AsyncDispatcher which StateContainer extends.
+
+```TS
+import { Store } from '@ngrx/store';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NgrxStateContainer extends AsyncDispatcher {
+  constructor(private store: Store<any>) {
+    super(action => this.store.dispatch(action))
+  }
+}
 ```
