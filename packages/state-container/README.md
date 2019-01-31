@@ -83,7 +83,7 @@ export class NgrxStateContainer {
 
   constructor(private store: Store<any>) {}
 
-  update(change: (() => StateChange<A>) | StateChange<A>): Observable<T> {
+  update(change: (() => StateChange) | StateChange): Observable<any> {
     return this.asyncDispatcher.dispatch(change).pipe(
       concatMapTo(this.store),
       take(1)
