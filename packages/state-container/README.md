@@ -31,8 +31,6 @@ const container = new StateContainer((state, action) => {
     case CounterTodoType.Decrement:
       return state - 1;
   }
-
-  return state;
 }, 0);
 ```
 
