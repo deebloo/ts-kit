@@ -47,21 +47,22 @@ container.value.subscribe(console.log);
 
 ```TS
 // A raw action
-container.update(new Increment());
-```
 
-```TS
-// A function that returns an action
+container.update(new Increment());
 container.update(() => new Increment());
 ```
 
 ```TS
-// A function that returns a promise that resolves to an action
+// A Promise that resolves to an action
+
+container.update(fetch('/my-api').then(() => new Increment()));
 container.update(() => fetch('/my-api').then(() => new Increment()));
 ```
 
 ```TS
-// A function that returns an Observable that resolves to an action
+// An Observable that resolves to an action
+
+container.update(of('Hello').pipe(map(() => new Increment())));
 container.update(() => of('Hello').pipe(map(() => new Increment())));
 ```
 
