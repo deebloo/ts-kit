@@ -15,11 +15,11 @@ import { StateContainer, Action } from '@ts-kit/state-container';
 
 const enum CounterTodoType { Increment, Decrement }
 
-class Increment implements Action<CounterTodoType> {
+class Increment implements Action {
   readonly type = CounterTodoType.Increment
 }
 
-class Decrement implements Action<CounterTodoType> {
+class Decrement implements Action {
   readonly type = CounterTodoType.Decrement
 }
 
