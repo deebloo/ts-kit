@@ -69,7 +69,7 @@ container.update(() => of('Hello').pipe(map(() => new Increment())));
 
 #### Want to use this with NgRx, NGXS or another state management solution?
 
-GO FOR IT! This package exposes a class called AsyncDispatcher which StateContainer extends.
+GO FOR IT! This package exposes a class called AsyncDispatcher which StateContainer extends. Use that to create your own state containers.
 
 ```TS
 import { Store } from '@ngrx/store';
