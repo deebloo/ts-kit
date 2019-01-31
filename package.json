@@ -1,6 +1,6 @@
 {
   "name": "ts-toolkit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A set of packages to help you be more productive",
   "scripts": {
     "DI": "---------------------------",

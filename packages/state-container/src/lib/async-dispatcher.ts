@@ -14,15 +14,15 @@ export const stateResultToObservable = <A>(result: StateChange<A>): Observable<A
 };
 
 export class AsyncDispatcher<A extends Action = Action> {
-  constructor(private dispatch: (action: Action<any>) => void) {}
+  constructor(private dispatcher: (action: Action<any>) => void) {}
 
-  update(change: (() => StateChange<A>) | StateChange<A>): Observable<A> {
+  dispatch(change: (() => StateChange<A>) | StateChange<A>): Observable<A> {
     const result: Observable<A> = stateResultToObservable(
       change instanceof Function ? change() : change
     ).pipe(shareReplay(1));
 
     result.subscribe((action: A) => {
-      this.dispatch(action);
+      this.dispatcher(action);
     });
 
     return result;

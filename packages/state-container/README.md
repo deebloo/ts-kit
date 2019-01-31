@@ -18,11 +18,11 @@ import { StateContainer, Action } from '@ts-kit/state-container';
 const enum CounterTodoType { Increment, Decrement }
 
 class Increment implements Action<CounterTodoType> {
-  readonly type = CouterTodoType.Increment
+  readonly type = CounterTodoType.Increment
 }
 
 class Decrement implements Action<CounterTodoType> {
-  readonly type = CouterTodoType.Decrement
+  readonly type = CounterTodoType.Decrement
 }
 
 const container = new StateContainer((state, action) => {
@@ -69,7 +69,7 @@ container.update(() => of('Hello').pipe(map(() => new Increment())));
 
 #### Want to use this with NgRx, NGXS or another state management solution?
 
-GO FOR IT! This package exposes a class called AsyncDispatcher which StateContainer extends.
+GO FOR IT! This package exposes a class called AsyncDispatcher which StateContainer uses internally.
 
 ```TS
 import { Store } from '@ngrx/store';
@@ -77,9 +77,18 @@ import { Store } from '@ngrx/store';
 @Injectable({
   providedIn: 'root'
 })
-export class NgrxStateContainer extends AsyncDispatcher {
-  constructor(private store: Store<any>) {
-    super(action => this.store.dispatch(action))
+export class NgrxStateContainer {
+  private readonly asyncDispatcher = new AsyncDispatcher(
+    action => this.store.dispatch(action)
+  );
+
+  constructor(private store: Store<any>) {}
+
+  update(change: (() => StateChange<A>) | StateChange<A>): Observable<T> {
+    return this.asyncDispatcher.dispatch(change).pipe(
+      concatMapTo(this.value),
+      take(1)
+    );
   }
 }
 ```
