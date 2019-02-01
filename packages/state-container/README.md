@@ -70,6 +70,7 @@ GO FOR IT! This package exposes a class called AsyncDispatcher which StateContai
 Use it to create your own state containers.
 
 ```TS
+import { AsyncDispatcher } from '@ts-kit/state-container';
 import { Store } from '@ngrx/store';
 
 @Injectable({
