@@ -17,8 +17,7 @@ export class AsyncDispatcher<A extends Action = Action> {
   constructor(private dispatcher: (action: Action<any>) => void) {}
 
   dispatch(change: (() => StateChange<A>) | StateChange<A>): Observable<A | A[]> {
-    let src = change instanceof Function ? change() : change;
-
+    const src = change instanceof Function ? change() : change;
     const result = stateResultToObservable(src).pipe(shareReplay(1));
 
     result.subscribe(actions => {
