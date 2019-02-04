@@ -6,9 +6,9 @@ import { AsyncDispatcher } from './async-dispatcher';
 
 export class StateContainer<T, A extends Action = Action> {
   private readonly stateManager: BehaviorSubject<T> = new BehaviorSubject<T>(this.initValue);
-  private readonly asyncDispatcher = new AsyncDispatcher<A>(action =>
-    this.dispatcher.next(action as A)
-  );
+  private readonly asyncDispatcher = new AsyncDispatcher<A>(action => {
+    this.actions.next(action as A);
+  });
 
   public readonly value: Observable<T> = this.stateManager.pipe(
     distinctUntilChanged(),
@@ -18,9 +18,9 @@ export class StateContainer<T, A extends Action = Action> {
   constructor(
     reducer: (s: T, action: A) => T,
     private initValue: T,
-    private dispatcher: Subject<A> = new Subject<A>()
+    private actions: Subject<A> = new Subject<A>()
   ) {
-    dispatcher.pipe(scan(reducer, initValue)).subscribe(state => {
+    actions.pipe(scan(reducer, initValue)).subscribe(state => {
       this.stateManager.next(state);
     });
   }

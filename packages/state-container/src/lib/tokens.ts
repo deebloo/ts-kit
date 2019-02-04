@@ -5,4 +5,4 @@ export interface Action<T = any> {
   payload?: any;
 }
 
-export type StateChange<A = Action> = A | Observable<A> | Promise<A>;
+export type StateChange<A = Action> = A | A[] | Observable<A | A[]> | Promise<A | A[]>;

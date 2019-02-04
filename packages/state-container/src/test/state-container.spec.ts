@@ -157,12 +157,7 @@ describe('StateContainer', () => {
       return state;
     }, 0);
 
-    manager.update(
-      () =>
-        new Observable(subscriber => {
-          subscriber.next(new Increment());
-        })
-    );
+    manager.update(() => of(new Increment()));
 
     expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
   });
@@ -190,6 +185,7 @@ describe('StateContainer', () => {
             callCount++;
 
             subscriber.next(new Increment());
+            subscriber.complete();
           })
       )
       .subscribe();
@@ -228,5 +224,68 @@ describe('StateContainer', () => {
     manager.update(() => new Increment());
 
     expect(dispatchesFromLocalDispatcher).toBe(3);
+  });
+
+  it('should update when dispatching multiple actions', async () => {
+    class Increment implements Action {
+      type: 'INCREMENT' = 'INCREMENT';
+    }
+
+    const manager = new StateContainer<number, Increment>((state, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+      }
+
+      return state;
+    }, 0);
+
+    manager.update([new Increment(), new Increment(), new Increment(), new Increment()]);
+
+    expect(await manager.value.pipe(take(1)).toPromise()).toBe(4);
+  });
+
+  it('should update when dispatching an Observable that resolves to multiple actions', async () => {
+    class Increment implements Action {
+      type: 'INCREMENT' = 'INCREMENT';
+    }
+
+    const manager = new StateContainer<number, Increment>((state, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+      }
+
+      return state;
+    }, 0);
+
+    manager.update(of([new Increment(), new Increment(), new Increment(), new Increment()]));
+
+    expect(await manager.value.pipe(take(1)).toPromise()).toBe(4);
+  });
+
+  it('should update when dispatching a Promise that resolves to multiple actions', () => {
+    class Increment implements Action {
+      type: 'INCREMENT' = 'INCREMENT';
+    }
+
+    const manager = new StateContainer<number, Increment>((state, action) => {
+      switch (action.type) {
+        case 'INCREMENT':
+          return state + 1;
+      }
+
+      return state;
+    }, 0);
+
+    manager
+      .update(
+        new Promise(resolve => {
+          resolve([new Increment(), new Increment(), new Increment(), new Increment()]);
+        })
+      )
+      .subscribe(async () => {
+        expect(await manager.value.pipe(take(1)).toPromise()).toBe(4);
+      });
   });
 });
