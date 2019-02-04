@@ -10,7 +10,7 @@ export class StateContainer<T, A extends Action = Action> {
     this.actions.next(action as A);
   });
 
-  public readonly value: Observable<T> = this.stateManager.pipe(
+  public readonly value: Observable<T> = this.stateManager.asObservable().pipe(
     distinctUntilChanged(),
     shareReplay(1)
   );
