@@ -16,11 +16,11 @@ export class StateContainer<T, A extends Action = Action> {
   );
 
   constructor(
-    reducer: (s: T, action: A) => T,
+    private reducer: (s: T, action: A) => T,
     private initValue: T,
     private actions: Subject<A> = new Subject<A>()
   ) {
-    actions.pipe(scan(reducer, initValue)).subscribe(state => {
+    this.actions.pipe(scan(this.reducer, this.initValue)).subscribe(state => {
       this.stateManager.next(state);
     });
   }
