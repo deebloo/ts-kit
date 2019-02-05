@@ -18,7 +18,7 @@ build() {
 release() {
     build
     
-    node tools/update_version type-utils &&
+    node tools/update_version "$PROJECT" &&
     cd "@ts-kit/$PROJECT" &&
     npm publish --access public
 }
