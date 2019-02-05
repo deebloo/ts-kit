@@ -1,8 +1,13 @@
 import { StateContainer, Action } from '@ts-kit/state-container';
-import { take } from 'rxjs/operators';
+import { take, switchMapTo } from 'rxjs/operators';
 import { Observable, Subject, of, forkJoin } from 'rxjs';
 
 describe('StateContainer', () => {
+  const actionToPromise = <T extends Action>(action: T | T[]) =>
+    new Promise<T | T[]>(resolve => {
+      resolve(action);
+    });
+
   it('should update when an action is passed directly to update', async () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
@@ -20,18 +25,23 @@ describe('StateContainer', () => {
         case 'DECREMENT':
           return state - 1;
       }
-
-      return state;
     }, 0);
 
-    manager.update(new Increment());
-    manager.update(new Increment());
-    manager.update(new Decrement());
+    const value = await forkJoin(
+      manager.update(new Increment()),
+      manager.update(new Increment()),
+      manager.update(new Decrement())
+    )
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
 
-    expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
+    expect(value).toBe(1);
   });
 
-  it('should update when a Promise resolving to an action is passed directly to update', () => {
+  it('should update when a Promise resolving to an action is passed directly to update', async () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
     }
@@ -39,11 +49,6 @@ describe('StateContainer', () => {
     class Decrement implements Action {
       type: 'DECREMENT' = 'DECREMENT';
     }
-
-    const actionToPromise = <T extends Action>(action: T) =>
-      new Promise<T>(resolve => {
-        resolve(action);
-      });
 
     const manager = new StateContainer<number, Increment | Decrement>((state, action) => {
       switch (action.type) {
@@ -53,17 +58,20 @@ describe('StateContainer', () => {
         case 'DECREMENT':
           return state - 1;
       }
-
-      return state;
     }, 0);
 
-    forkJoin(
+    const value = await forkJoin(
       manager.update(actionToPromise(new Increment())),
       manager.update(actionToPromise(new Increment())),
       manager.update(actionToPromise(new Decrement()))
-    ).subscribe(async () => {
-      expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
-    });
+    )
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
+
+    expect(value).toBe(1);
   });
 
   it('should update when an Observable resolving to an action is passed directly to update', async () => {
@@ -83,15 +91,20 @@ describe('StateContainer', () => {
         case 'DECREMENT':
           return state - 1;
       }
-
-      return state;
     }, 0);
 
-    manager.update(of(new Increment()));
-    manager.update(of(new Increment()));
-    manager.update(of(new Decrement()));
+    const value = await forkJoin(
+      manager.update(of(new Increment())),
+      manager.update(of(new Increment())),
+      manager.update(of(new Decrement()))
+    )
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
 
-    expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
+    expect(value).toBe(1);
   });
 
   it('should update when the state function returns an action', async () => {
@@ -111,36 +124,43 @@ describe('StateContainer', () => {
         case 'DECREMENT':
           return state - 1;
       }
-
-      return state;
     }, 0);
 
-    manager.update(() => new Increment());
-    manager.update(() => new Increment());
-    manager.update(() => new Decrement());
+    const value = await forkJoin(
+      manager.update(() => new Increment()),
+      manager.update(() => new Increment()),
+      manager.update(() => new Decrement())
+    )
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
 
-    expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
+    expect(value).toBe(1);
   });
 
-  it('should update when the state function returns a Promise', () => {
+  it('should update when the state function returns a Promise', async () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
     }
 
-    const manager = new StateContainer((state, action) => {
+    const manager = new StateContainer<number, Increment>((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
       }
-
-      return state;
     }, 0);
 
-    manager
-      .update(() => new Promise(resolve => resolve(new Increment())))
-      .subscribe(async () => {
-        expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
-      });
+    const value = await manager
+      .update(() => actionToPromise(new Increment()))
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
+
+    expect(value).toBe(1);
   });
 
   it('should update when the state function returns an Observable', async () => {
@@ -148,18 +168,22 @@ describe('StateContainer', () => {
       type: 'INCREMENT' = 'INCREMENT';
     }
 
-    const manager = new StateContainer((state, action) => {
+    const manager = new StateContainer<number, Increment>((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
       }
-
-      return state;
     }, 0);
 
-    manager.update(() => of(new Increment()));
+    const value = await manager
+      .update(() => of(new Increment()))
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
 
-    expect(await manager.value.pipe(take(1)).toPromise()).toBe(1);
+    expect(value).toBe(1);
   });
 
   it('should only fire once when subscribed to', () => {
@@ -167,13 +191,11 @@ describe('StateContainer', () => {
       type: 'INCREMENT' = 'INCREMENT';
     }
 
-    const manager = new StateContainer((state, action) => {
+    const manager = new StateContainer<number, Increment>((state, action) => {
       switch (action.type) {
         case 'INCREMENT':
           return state + 1;
       }
-
-      return state;
     }, 0);
 
     let callCount = 0;
@@ -212,16 +234,14 @@ describe('StateContainer', () => {
           case 'INCREMENT':
             return state + 1;
         }
-
-        return state;
       },
       0,
       dispatcher
     );
 
-    manager.update(() => new Increment());
-    manager.update(() => new Increment());
-    manager.update(() => new Increment());
+    manager.update(new Increment());
+    manager.update(new Increment());
+    manager.update(new Increment());
 
     expect(dispatchesFromLocalDispatcher).toBe(3);
   });
@@ -236,13 +256,17 @@ describe('StateContainer', () => {
         case 'INCREMENT':
           return state + 1;
       }
-
-      return state;
     }, 0);
 
-    manager.update([new Increment(), new Increment(), new Increment(), new Increment()]);
+    const value = await manager
+      .update([new Increment(), new Increment(), new Increment(), new Increment()])
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
 
-    expect(await manager.value.pipe(take(1)).toPromise()).toBe(4);
+    expect(value).toBe(4);
   });
 
   it('should update when dispatching an Observable that resolves to multiple actions', async () => {
@@ -255,16 +279,20 @@ describe('StateContainer', () => {
         case 'INCREMENT':
           return state + 1;
       }
-
-      return state;
     }, 0);
 
-    manager.update(of([new Increment(), new Increment(), new Increment(), new Increment()]));
+    const value = await manager
+      .update(of([new Increment(), new Increment(), new Increment(), new Increment()]))
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
+      )
+      .toPromise();
 
-    expect(await manager.value.pipe(take(1)).toPromise()).toBe(4);
+    expect(value).toBe(4);
   });
 
-  it('should update when dispatching a Promise that resolves to multiple actions', () => {
+  it('should update when dispatching a Promise that resolves to multiple actions', async () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
     }
@@ -274,18 +302,16 @@ describe('StateContainer', () => {
         case 'INCREMENT':
           return state + 1;
       }
-
-      return state;
     }, 0);
 
-    manager
-      .update(
-        new Promise(resolve => {
-          resolve([new Increment(), new Increment(), new Increment(), new Increment()]);
-        })
+    const value = await manager
+      .update(actionToPromise([new Increment(), new Increment(), new Increment(), new Increment()]))
+      .pipe(
+        switchMapTo(manager.value),
+        take(1)
       )
-      .subscribe(async () => {
-        expect(await manager.value.pipe(take(1)).toPromise()).toBe(4);
-      });
+      .toPromise();
+
+    expect(value).toBe(4);
   });
 });
