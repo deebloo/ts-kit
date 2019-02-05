@@ -7,7 +7,7 @@
     "test:ci": "./BUILDER.sh test_ci",
     "build": "./BUILDER.sh build",
     "release": "./BUILDER.sh release",
-    "release_all": "npm run release di && npm run release state-container && npm run release type-utils"
+    "release_all": "./tools/RELEASE_ALL.sh"
   },
   "repository": {
     "type": "git",
