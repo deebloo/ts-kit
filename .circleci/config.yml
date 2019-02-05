@@ -33,9 +33,9 @@ jobs:
     executor: node_env
     steps:
       - prepare_env
-      - run: npm test di
-      - run: npm test state-container
-      - run: npm test type-utils
+      - run: npm run test:ci di
+      - run: npm run test:ci state-container
+      - run: npm run test:ci type-utils
 
 workflows:
   version: 2
