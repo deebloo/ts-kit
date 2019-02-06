@@ -23,7 +23,7 @@ class Decrement implements Action {
   readonly type = CounterTodoType.Decrement
 }
 
-const container = new StateContainer((state, action): number => {
+const container = new StateContainer((state: number, action: Increment | Decrement): number => {
   switch(action.type) {
     case CounterTodoType.Increment:
       return state + 1;
