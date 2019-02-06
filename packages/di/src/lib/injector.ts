@@ -9,15 +9,13 @@ export interface InjectorOptions {
  * Create an instance of a Dependency injector.
  * Can be used to create a singleton of any class that is property annotated with dependencies.
  *
- * @param overrides a list of explicit providers, if you need to override a provider at any point in the tree
+ * @param opts configuration options for the current instance of Injector
+ * @param parent a parent instance of Injector
  */
 export class Injector {
   private providerMap = new WeakMap<Provider<any>, any>();
 
-  constructor(
-    private opts: InjectorOptions = { providers: [] },
-    private parent?: Injector
-  ) {
+  constructor(private opts: InjectorOptions = { providers: [] }, private parent?: Injector) {
     if (this.opts.bootstrap) {
       this.opts.bootstrap.forEach(provider => this.get(provider));
     }
@@ -77,9 +75,7 @@ export class Injector {
 
   private findOverride(provider: Provider<any>): OverrideProvider<any> | null {
     if (this.opts.providers) {
-      const override = this.opts.providers.find(
-        override => override.provide === provider
-      );
+      const override = this.opts.providers.find(override => override.provide === provider);
 
       return override || null;
     }
