@@ -3,8 +3,8 @@
   "version": "1.2.0",
   "description": "A set of packages to help you be more productive",
   "scripts": {
-    "test": "./BUILDER.sh test",
-    "test:ci": "./BUILDER.sh test_ci",
+    "test": "./BUILDER.sh test --watchAll",
+    "test:ci": "./BUILDER.sh test",
     "build": "./BUILDER.sh build",
     "release": "./BUILDER.sh release"
   },

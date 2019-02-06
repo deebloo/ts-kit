@@ -3,13 +3,8 @@
 PROJECT=state-container
 
 test() {
-    npx jest --watchAll --verbose=false -c "packages/$PROJECT/jest.config.js"
+    npx jest --verbose=false -c "packages/$PROJECT/jest.config.js" ${@}
 }
-
-test_ci() {
-    npx jest -c "packages/$PROJECT/jest.config.js"
-}
-
 
 build() {
     npx ng-packagr -p "packages/$PROJECT/package.json"
