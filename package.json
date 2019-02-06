@@ -6,8 +6,7 @@
     "test": "./BUILDER.sh test",
     "test:ci": "./BUILDER.sh test_ci",
     "build": "./BUILDER.sh build",
-    "release": "./BUILDER.sh release",
-    "release_all": "./tools/RELEASE_ALL.sh"
+    "release": "./BUILDER.sh release"
   },
   "repository": {
     "type": "git",
