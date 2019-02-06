@@ -223,4 +223,27 @@ describe('Injector', () => {
 
     expect(parent.get(FooService)).not.toBe(app.get(FooService));
   });
+
+  it('should be able to use an abstract class as an injection token', () => {
+    abstract class MyService {
+      sayHello() {
+        return 'Hello World';
+      }
+    }
+
+    const app = new Injector({
+      providers: [
+        {
+          provide: MyService,
+          provider: class extends MyService {
+            sayHello() {
+              return 'TESTING';
+            }
+          }
+        }
+      ]
+    });
+
+    expect(app.get(MyService).sayHello()).toBe('TESTING');
+  });
 });

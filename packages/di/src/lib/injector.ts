@@ -1,4 +1,4 @@
-import { Provider, OverrideProvider } from './provider';
+import { Provider, OverrideProvider, ClassProvider } from './provider';
 
 export interface InjectorOptions {
   providers?: OverrideProvider<any>[];
@@ -52,19 +52,17 @@ export class Injector {
       }
     }
 
-    return this.createSingleton(provider);
+    return this.createSingleton(<ClassProvider<T>>provider);
   }
 
   /**
    * Create a new instance of a provider
    */
-  create<T>(provider: Provider<T>): T {
-    return provider.deps
-      ? new provider(...provider.deps.map(dep => this.get(dep)))
-      : new provider();
+  create<T>(P: ClassProvider<T>): T {
+    return P.deps ? new P(...P.deps.map(dep => this.get(dep))) : new P();
   }
 
-  private createSingleton(provider: Provider<any>) {
+  private createSingleton(provider: ClassProvider<any>) {
     const instance = this.create(provider);
 
     // cache the result in the WeakMap
