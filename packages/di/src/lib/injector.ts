@@ -1,4 +1,4 @@
-import { Provider, OverrideProvider, ClassProvider } from './provider';
+import { Provider, OverrideProvider, ClassProvider, FactoryOverrideProvider } from './provider';
 
 export interface InjectorOptions {
   providers?: OverrideProvider<any>[];
@@ -45,14 +45,14 @@ export class Injector {
 
       if (override) {
         // if an override is available for this Injector use that
-        return this.createSingleton(override.useClass);
+        return this.createSingletonFromOverride(override);
       } else if (this.parent && this.parent.has(provider)) {
         // if a parent is available and contains an instance of the provider already use that
         return this.parent.get(provider);
       }
     }
 
-    return this.createSingleton(<ClassProvider<T>>provider);
+    return this.createSingletonFromClass(<ClassProvider<T>>provider);
   }
 
   /**
@@ -62,11 +62,31 @@ export class Injector {
     return P.deps ? new P(...P.deps.map(dep => this.get(dep))) : new P();
   }
 
-  private createSingleton(provider: ClassProvider<any>) {
+  private createSingletonFromOverride<T>(provider: OverrideProvider<T>): T | null {
+    if ('useClass' in provider) {
+      return this.createSingletonFromClass(provider.useClass);
+    } else if ('useFactory' in provider) {
+      return this.createSingletonFromFactory(provider);
+    }
+
+    return null;
+  }
+
+  private createSingletonFromClass<T>(provider: ClassProvider<T>): T {
     const instance = this.create(provider);
 
     // cache the result in the WeakMap
     this.providerMap.set(provider, instance);
+
+    return instance;
+  }
+
+  private createSingletonFromFactory<T>(provider: FactoryOverrideProvider<T>) {
+    const instance = provider.deps
+      ? provider.useFactory(...provider.deps.map(dep => this.get(dep)))
+      : provider.useFactory();
+
+    this.providerMap.set(provider.provide, instance);
 
     return instance;
   }
