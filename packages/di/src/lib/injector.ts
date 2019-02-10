@@ -45,7 +45,7 @@ export class Injector {
 
       if (override) {
         // if an override is available for this Injector use that
-        return this.createSingleton(override.provider);
+        return this.createSingleton(override.useClass);
       } else if (this.parent && this.parent.has(provider)) {
         // if a parent is available and contains an instance of the provider already use that
         return this.parent.get(provider);

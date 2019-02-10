@@ -115,7 +115,7 @@ describe('Injector', () => {
         providers: [
           {
             provide: BarService,
-            provider: class implements BarService {
+            useClass: class implements BarService {
               foo = 'Goodbye World';
             }
           }
@@ -214,7 +214,7 @@ describe('Injector', () => {
         providers: [
           {
             provide: FooService,
-            provider: class extends FooService {}
+            useClass: class extends FooService {}
           }
         ]
       },
@@ -226,16 +226,14 @@ describe('Injector', () => {
 
   it('should be able to use an abstract class as an injection token', () => {
     abstract class MyService {
-      sayHello() {
-        return 'Hello World';
-      }
+      abstract sayHello(): string;
     }
 
     const app = new Injector({
       providers: [
         {
           provide: MyService,
-          provider: class extends MyService {
+          useClass: class implements MyService {
             sayHello() {
               return 'TESTING';
             }
