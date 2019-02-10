@@ -295,6 +295,6 @@ describe('Injector', () => {
       ]
     });
 
-    expect(app.get(MyService).sayHello()).toBe('HELLO WORLD TEST');
+    expect(app.get(MyService).sayHello()).toBe('HELLO WORLD TESTING');
   });
 });

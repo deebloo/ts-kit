@@ -43,7 +43,7 @@ export class Injector {
     } else {
       const override = this.findOverride(provider);
 
-      if (override) {
+      if (override !== null) {
         // if an override is available for this Injector use that
         return this.createSingletonFromOverride(override);
       } else if (this.parent && this.parent.has(provider)) {
@@ -72,11 +72,10 @@ export class Injector {
     return null;
   }
 
-  private createSingletonFromClass<T>(provider: ClassProvider<T>): T {
-    const instance = this.create(provider);
+  private createSingletonFromClass<T>(P: ClassProvider<T>): T {
+    const instance = P.deps ? new P(...P.deps.map(dep => this.get(dep))) : new P();
 
-    // cache the result in the WeakMap
-    this.providerMap.set(provider, instance);
+    this.providerMap.set(P, instance);
 
     return instance;
   }
