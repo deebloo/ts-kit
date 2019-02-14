@@ -22,7 +22,7 @@ export class StateContainer<T, A extends Action = Action> {
     private actions: Subject<A> = new Subject<A>()
   ) {
     this.actions.pipe(scan(this.reducer, this.initValue)).subscribe(state => {
-      this.stateManager.next(state);
+      this.setState(() => state);
     });
   }
 
@@ -34,7 +34,7 @@ export class StateContainer<T, A extends Action = Action> {
   }
 
   reset(): void {
-    this.stateManager.next(this.initValue);
+    this.setState(() => this.initValue);
   }
 
   setState(fn: () => T): void {

@@ -4,6 +4,9 @@ import { take } from 'rxjs/operators';
 const scope = window as any;
 const devToolsExtension = scope['__REDUX_DEVTOOLS_EXTENSION__'];
 
+type MessageType = 'DISPATCH' | 'ACTION';
+type PayloadType = 'JUMP_TO_ACTION' | 'TOGGLE_ACTION';
+
 const getSnapShot = async (container: StateContainer<any>) =>
   await container.value.pipe(take(1)).toPromise();
 
@@ -18,9 +21,9 @@ export const connectDevTools = async (container: StateContainer<any, any>): Prom
 
   devTools.subscribe(
     (message: {
-      type: 'DISPATCH' | 'ACTION';
+      type: MessageType;
       state: any;
-      payload: { type: 'JUMP_TO_ACTION' | 'TOGGLE_ACTION'; actionId: number };
+      payload: { type: PayloadType; actionId: number };
     }) => {
       if (message.type === 'DISPATCH' && message.state) {
         if (message.payload.type === 'JUMP_TO_ACTION') {
