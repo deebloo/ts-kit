@@ -115,7 +115,7 @@ describe('Injector', () => {
         providers: [
           {
             provide: BarService,
-            provider: class implements BarService {
+            useClass: class implements BarService {
               foo = 'Goodbye World';
             }
           }
@@ -214,7 +214,7 @@ describe('Injector', () => {
         providers: [
           {
             provide: FooService,
-            provider: class extends FooService {}
+            useClass: class extends FooService {}
           }
         ]
       },
@@ -226,16 +226,14 @@ describe('Injector', () => {
 
   it('should be able to use an abstract class as an injection token', () => {
     abstract class MyService {
-      sayHello() {
-        return 'Hello World';
-      }
+      abstract sayHello(): string;
     }
 
     const app = new Injector({
       providers: [
         {
           provide: MyService,
-          provider: class extends MyService {
+          useClass: class implements MyService {
             sayHello() {
               return 'TESTING';
             }
@@ -245,5 +243,58 @@ describe('Injector', () => {
     });
 
     expect(app.get(MyService).sayHello()).toBe('TESTING');
+  });
+
+  it('should return an instance when using a factory provider', () => {
+    class MyService {
+      constructor(private test: string) {}
+
+      sayHello(): string {
+        return 'HELLO WORLD ' + this.test;
+      }
+    }
+
+    const app = new Injector({
+      providers: [
+        {
+          provide: MyService,
+          useFactory(): MyService {
+            return new MyService('TEST');
+          }
+        }
+      ]
+    });
+
+    expect(app.get(MyService).sayHello()).toBe('HELLO WORLD TEST');
+  });
+
+  it('should return an instance when using a factory provider with deps', () => {
+    class MyFirstService {
+      sayHello() {
+        return 'TESTING';
+      }
+    }
+
+    class MyService {
+      constructor(private test: MyFirstService) {}
+
+      sayHello(): string {
+        return 'HELLO WORLD ' + this.test.sayHello();
+      }
+    }
+
+    const app = new Injector({
+      providers: [
+        {
+          provide: MyService,
+          useFactory(first: MyFirstService): MyService {
+            return new MyService(first);
+          },
+          deps: [MyFirstService]
+        }
+      ]
+    });
+
+    expect(app.get(MyService).sayHello()).toBe('HELLO WORLD TESTING');
   });
 });

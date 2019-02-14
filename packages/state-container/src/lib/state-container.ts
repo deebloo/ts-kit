@@ -1,8 +1,8 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { shareReplay, distinctUntilChanged, scan, concatMapTo, take } from 'rxjs/operators';
 
-import { Action, StateChange } from './tokens';
-import { AsyncDispatcher } from './async-dispatcher';
+import { AsyncDispatcher, DispatchChange } from './async-dispatcher';
+import { Action, Reducer } from './tokens';
 
 export class StateContainer<T, A extends Action = Action> {
   private readonly stateManager: BehaviorSubject<T> = new BehaviorSubject<T>(this.initValue);
@@ -10,6 +10,7 @@ export class StateContainer<T, A extends Action = Action> {
     this.actions.next(action as A);
   });
 
+  public readonly actionStream = this.actions.asObservable();
   public readonly value: Observable<T> = this.stateManager.asObservable().pipe(
     distinctUntilChanged(),
     shareReplay(1)
@@ -18,7 +19,7 @@ export class StateContainer<T, A extends Action = Action> {
   public readonly actionStream = this.actions.asObservable();
 
   constructor(
-    private reducer: (s: T, action: A) => T,
+    private reducer: Reducer<T, A>,
     private initValue: T,
     private actions: Subject<A> = new Subject<A>()
   ) {
@@ -27,7 +28,7 @@ export class StateContainer<T, A extends Action = Action> {
     });
   }
 
-  update(change: (() => StateChange<A>) | StateChange<A>): Observable<T> {
+  update(change: DispatchChange<A>): Observable<T> {
     return this.asyncDispatcher.dispatch(change).pipe(
       concatMapTo(this.value),
       take(1)

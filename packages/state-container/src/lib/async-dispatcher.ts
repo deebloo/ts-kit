@@ -3,6 +3,8 @@ import { shareReplay } from 'rxjs/operators';
 
 import { Action, StateChange } from './tokens';
 
+export type DispatchChange<T> = (() => StateChange<T>) | StateChange<T>;
+
 export const stateResultToObservable = <A>(result: StateChange<A>): Observable<A | A[]> => {
   if (isObservable(result)) {
     return result;
@@ -16,7 +18,7 @@ export const stateResultToObservable = <A>(result: StateChange<A>): Observable<A
 export class AsyncDispatcher<A extends Action = Action> {
   constructor(private dispatcher: (action: Action<any>) => void) {}
 
-  dispatch(change: (() => StateChange<A>) | StateChange<A>): Observable<A | A[]> {
+  dispatch(change: DispatchChange<A>): Observable<A | A[]> {
     const src = change instanceof Function ? change() : change;
     const result = stateResultToObservable(src).pipe(shareReplay(1));
 
