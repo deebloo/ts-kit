@@ -16,8 +16,6 @@ export class StateContainer<T, A extends Action = Action> {
     shareReplay(1)
   );
 
-  public readonly actionStream = this.actions.asObservable();
-
   constructor(
     private reducer: Reducer<T, A>,
     private initValue: T,
