@@ -15,6 +15,8 @@ export class StateContainer<T, A extends Action = Action> {
     shareReplay(1)
   );
 
+  public readonly actionStream = this.actions.asObservable();
+
   constructor(
     private reducer: (s: T, action: A) => T,
     private initValue: T,
@@ -30,5 +32,13 @@ export class StateContainer<T, A extends Action = Action> {
       concatMapTo(this.value),
       take(1)
     );
+  }
+
+  reset(): void {
+    this.stateManager.next(this.initValue);
+  }
+
+  setState(fn: () => T): void {
+    this.stateManager.next(fn());
   }
 }
