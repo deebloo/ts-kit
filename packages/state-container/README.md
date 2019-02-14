@@ -70,7 +70,7 @@ GO FOR IT! This package exposes a class called AsyncDispatcher which StateContai
 Use it to create your own state containers.
 
 ```TS
-import { AsyncDispatcher } from '@ts-kit/state-container';
+import { AsyncDispatcher, DispatchChange } from '@ts-kit/state-container';
 import { Store } from '@ngrx/store';
 
 @Injectable({
@@ -83,7 +83,7 @@ export class NgrxStateContainer {
 
   constructor(public value: Store<any>) {}
 
-  update(change: (() => StateChange) | StateChange): Observable<any> {
+  update(change: DispatchChange): Observable<any> {
     return this.asyncDispatcher.dispatch(change).pipe(
       concatMapTo(this.value),
       take(1)

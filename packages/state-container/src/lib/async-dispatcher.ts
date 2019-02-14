@@ -3,7 +3,7 @@ import { shareReplay } from 'rxjs/operators';
 
 import { Action, StateChange } from './tokens';
 
-export type DispatchChange<T> = (() => StateChange<T>) | StateChange<T>;
+export type DispatchChange<T = any> = (() => StateChange<T>) | StateChange<T>;
 
 export const stateResultToObservable = <A>(result: StateChange<A>): Observable<A | A[]> => {
   if (isObservable(result)) {
