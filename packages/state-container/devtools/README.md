@@ -1,6 +1,6 @@
-# StateContainer
+# StateContainer: Devtools
 
-An idea for dispatching actions in an asynchronous manner. (Similar to Thunk)
+https://github.com/zalmoxisus/redux-devtools-extension
 
 #### Installation:
 
