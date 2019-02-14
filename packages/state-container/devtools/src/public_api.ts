@@ -7,7 +7,11 @@ const devToolsExtension = scope['__REDUX_DEVTOOLS_EXTENSION__'];
 const getSnapShot = async (container: StateContainer<any>) =>
   await container.value.pipe(take(1)).toPromise();
 
-export const connectDevTools = async (container: StateContainer<any>) => {
+export const connectDevTools = async (container: StateContainer<any, any>): Promise<void> => {
+  if (!devToolsExtension) {
+    throw new Error('Could not find Redux Devtools Extension. Are you sure it is installed?');
+  }
+
   const devTools = devToolsExtension.connect();
 
   devTools.init(await getSnapShot(container));
