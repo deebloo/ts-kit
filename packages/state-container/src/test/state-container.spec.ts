@@ -4,11 +4,6 @@ import { Observable, Subject, of, forkJoin } from 'rxjs';
 import { getSnapshot } from '../lib/util';
 
 describe('StateContainer', () => {
-  const actionToPromise = <T extends Action>(action: T | T[]) =>
-    new Promise<T | T[]>(resolve => {
-      resolve(action);
-    });
-
   it('should update when an action is passed directly to update', async () => {
     class Increment implements Action {
       type: 'INCREMENT' = 'INCREMENT';
@@ -62,9 +57,9 @@ describe('StateContainer', () => {
     }, 0);
 
     const value = await forkJoin(
-      manager.update(actionToPromise(new Increment())),
-      manager.update(actionToPromise(new Increment())),
-      manager.update(actionToPromise(new Decrement()))
+      manager.update(Promise.resolve(new Increment())),
+      manager.update(Promise.resolve(new Increment())),
+      manager.update(Promise.resolve(new Decrement()))
     )
       .pipe(
         switchMapTo(manager.value),
@@ -154,7 +149,7 @@ describe('StateContainer', () => {
     }, 0);
 
     const value = await manager
-      .update(() => actionToPromise(new Increment()))
+      .update(() => Promise.resolve(new Increment()))
       .pipe(
         switchMapTo(manager.value),
         take(1)
@@ -306,7 +301,7 @@ describe('StateContainer', () => {
     }, 0);
 
     const value = await manager
-      .update(actionToPromise([new Increment(), new Increment(), new Increment(), new Increment()]))
+      .update(Promise.resolve([new Increment(), new Increment(), new Increment(), new Increment()]))
       .pipe(
         switchMapTo(manager.value),
         take(1)
