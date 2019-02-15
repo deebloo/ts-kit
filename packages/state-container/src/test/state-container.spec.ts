@@ -1,6 +1,7 @@
 import { StateContainer, Action } from '@ts-kit/state-container';
 import { take, switchMapTo } from 'rxjs/operators';
 import { Observable, Subject, of, forkJoin } from 'rxjs';
+import { getSnapshot } from '../lib/util';
 
 describe('StateContainer', () => {
   const actionToPromise = <T extends Action>(action: T | T[]) =>
@@ -313,5 +314,17 @@ describe('StateContainer', () => {
       .toPromise();
 
     expect(value).toBe(4);
+  });
+
+  it('should reset the state container to the initial state', async () => {
+    const manager = new StateContainer<number>(state => state, 0);
+
+    manager.setState(() => 100);
+
+    expect(await getSnapshot(manager)).toBe(100);
+
+    manager.reset();
+
+    expect(await getSnapshot(manager)).toBe(0);
   });
 });
