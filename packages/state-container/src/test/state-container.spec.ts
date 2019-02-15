@@ -147,15 +147,18 @@ describe('StateContainer', () => {
       }
     }, 0);
 
-    const value = await manager
-      .update(() => Promise.resolve(new Increment()))
+    const value = await forkJoin(
+      manager.update(() => Promise.resolve(new Increment())),
+      manager.update(() => Promise.resolve(new Increment())),
+      manager.update(() => Promise.resolve(new Increment()))
+    )
       .pipe(
         switchMapTo(manager.value),
         take(1)
       )
       .toPromise();
 
-    expect(value).toBe(1);
+    expect(value).toBe(3);
   });
 
   it('should update when the state function returns an Observable', async () => {
@@ -170,15 +173,18 @@ describe('StateContainer', () => {
       }
     }, 0);
 
-    const value = await manager
-      .update(() => of(new Increment()))
+    const value = await forkJoin(
+      manager.update(() => of(new Increment())),
+      manager.update(() => of(new Increment())),
+      manager.update(() => of(new Increment()))
+    )
       .pipe(
         switchMapTo(manager.value),
         take(1)
       )
       .toPromise();
 
-    expect(value).toBe(1);
+    expect(value).toBe(3);
   });
 
   it('should only fire once when subscribed to', () => {
