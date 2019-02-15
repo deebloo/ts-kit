@@ -5,7 +5,7 @@ import { Action, StateChange } from './tokens';
 
 export type DispatchChange<T = any> = (() => StateChange<T>) | StateChange<T>;
 
-export const stateResultToObservable = <A>(result: StateChange<A>): Observable<A | A[]> => {
+export const stateChangeToObservable = <A>(result: StateChange<A>): Observable<A | A[]> => {
   if (isObservable(result)) {
     return result;
   } else if (result instanceof Promise) {
@@ -20,7 +20,7 @@ export class AsyncDispatcher<A extends Action = Action> {
 
   dispatch(change: DispatchChange<A>): Observable<A | A[]> {
     const src = change instanceof Function ? change() : change;
-    const result = stateResultToObservable(src).pipe(shareReplay(1));
+    const result = stateChangeToObservable(src).pipe(shareReplay(1));
 
     result.subscribe(actions => {
       if (Array.isArray(actions)) {
