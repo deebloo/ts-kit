@@ -1,7 +1,6 @@
-import { StateContainer, Action } from '@ts-kit/state-container';
+import { StateContainer, Action, getSnapshot } from '@ts-kit/state-container';
 import { take, switchMapTo } from 'rxjs/operators';
 import { Observable, Subject, of, forkJoin } from 'rxjs';
-import { getSnapshot } from '../lib/util';
 
 describe('StateContainer', () => {
   it('should update when an action is passed directly to update', async () => {
