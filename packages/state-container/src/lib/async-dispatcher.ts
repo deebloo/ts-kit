@@ -1,26 +1,22 @@
-import { Observable, isObservable, from, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 import { Action, StateChange } from './tokens';
+import { toObservable } from './util';
 
 export type DispatchChange<T = any> = (() => StateChange<T>) | StateChange<T>;
-
-const stateChangeToObservable = <A>(result: StateChange<A>): Observable<A | A[]> => {
-  if (isObservable(result)) {
-    return result;
-  } else if (result instanceof Promise) {
-    return from(result);
-  }
-
-  return of(result);
-};
 
 export class AsyncDispatcher<A extends Action = Action> {
   constructor(private dispatcher: (action: Action<any>) => void) {}
 
   dispatch(change: DispatchChange<A>): Observable<A | A[]> {
     const src = change instanceof Function ? change() : change;
-    const result = stateChangeToObservable(src).pipe(shareReplay(1));
+    const result = toObservable(src).pipe(
+      shareReplay({
+        bufferSize: 1,
+        refCount: true
+      })
+    );
 
     result.subscribe(actions => {
       if (Array.isArray(actions)) {

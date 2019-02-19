@@ -1,27 +1,25 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { shareReplay, distinctUntilChanged, scan, concatMapTo, take } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { scan, concatMapTo, take } from 'rxjs/operators';
 
 import { AsyncDispatcher, DispatchChange } from './async-dispatcher';
 import { Action, Reducer } from './tokens';
+import { AsyncState } from './async-state';
 
-export class StateContainer<T, A extends Action = Action> {
-  private readonly stateManager: BehaviorSubject<T> = new BehaviorSubject<T>(this.initValue);
+export class StateContainer<T, A extends Action = Action> extends AsyncState<T> {
   private readonly asyncDispatcher = new AsyncDispatcher<A>(action => {
     this.actions.next(action as A);
   });
 
   public readonly actionStream = this.actions.asObservable();
-  public readonly value: Observable<T> = this.stateManager.asObservable().pipe(
-    distinctUntilChanged(),
-    shareReplay(1)
-  );
 
   constructor(
     private reducer: Reducer<T, A>,
-    private initValue: T,
+    initValue: T,
     private actions: Subject<A> = new Subject<A>()
   ) {
-    this.actions.pipe(scan(this.reducer, this.initValue)).subscribe(state => {
+    super(initValue);
+
+    this.actions.pipe(scan(this.reducer, initValue)).subscribe(state => {
       this.setState(() => state);
     });
   }
@@ -31,13 +29,5 @@ export class StateContainer<T, A extends Action = Action> {
       concatMapTo(this.value),
       take(1)
     );
-  }
-
-  reset(): void {
-    this.setState(() => this.initValue);
-  }
-
-  setState(fn: () => T): void {
-    this.stateManager.next(fn());
   }
 }
