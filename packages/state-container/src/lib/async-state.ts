@@ -4,6 +4,8 @@ import { shareReplay, distinctUntilChanged } from 'rxjs/operators';
 import { StateResult } from './tokens';
 import { toObservable } from './util';
 
+export type DispatchResult<T = any> = (() => StateResult<T>) | StateResult<T>;
+
 export class AsyncState<T> {
   private readonly stateManager: BehaviorSubject<T> = new BehaviorSubject<T>(this.initValue);
 
@@ -21,8 +23,10 @@ export class AsyncState<T> {
     this.setState(() => this.initValue);
   }
 
-  setState(result: () => StateResult<T>): Observable<T> {
-    const res = toObservable(result()).pipe(
+  setState(change: DispatchResult<T>): Observable<T> {
+    const src = change instanceof Function ? change() : change;
+
+    const res = toObservable(src).pipe(
       shareReplay({
         bufferSize: 1,
         refCount: true
