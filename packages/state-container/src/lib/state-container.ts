@@ -13,13 +13,13 @@ export class StateContainer<T, A extends Action = Action> extends AsyncState<T> 
   public readonly actionStream = this.actions.asObservable();
 
   constructor(
-    private reducer: Reducer<T, A>,
+    reducer: Reducer<T, A>,
     initValue: T,
-    private actions: Subject<A> = new Subject<A>()
+    private readonly actions: Subject<A> = new Subject<A>()
   ) {
     super(initValue);
 
-    this.actions.pipe(scan(this.reducer, initValue)).subscribe(state => {
+    this.actions.pipe(scan(reducer, initValue)).subscribe(state => {
       this.setState(() => state);
     });
   }
