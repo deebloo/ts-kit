@@ -1,6 +1,7 @@
 import { StateContainer, Action, getSnapshot } from '@ts-kit/state-container';
 import { take, switchMapTo } from 'rxjs/operators';
-import { Observable, Subject, of, forkJoin } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
+import { AsyncDispatcher } from '../lib/async-dispatcher';
 
 describe('StateContainer', () => {
   it('should update when an action is passed directly to update', async () => {
@@ -223,9 +224,9 @@ describe('StateContainer', () => {
       type: 'INCREMENT' = 'INCREMENT';
     }
 
-    const dispatcher = new Subject<Increment>();
+    const dispatcher = new AsyncDispatcher<Increment>();
 
-    dispatcher.subscribe(() => {
+    dispatcher.actionStream.subscribe(() => {
       dispatchesFromLocalDispatcher++;
     });
 

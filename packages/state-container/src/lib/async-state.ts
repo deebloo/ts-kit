@@ -11,27 +11,18 @@ export class AsyncState<T> {
 
   public readonly value: Observable<T> = this.stateManager.asObservable().pipe(
     distinctUntilChanged(),
-    shareReplay({
-      bufferSize: 1,
-      refCount: true
-    })
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(private initValue: T) {}
 
-  reset(): void {
-    this.setState(() => this.initValue);
+  reset(): Observable<T> {
+    return this.setState(() => this.initValue);
   }
 
   setState(change: DispatchResult<T>): Observable<T> {
     const src = change instanceof Function ? change() : change;
-
-    const res = toObservable(src).pipe(
-      shareReplay({
-        bufferSize: 1,
-        refCount: true
-      })
-    );
+    const res = toObservable(src).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
     res.subscribe(state => {
       this.stateManager.next(state);

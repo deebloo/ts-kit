@@ -1,20 +1,3 @@
 {
-  "name": "@ts-kit/state-container",
-  "version": "0.0.0",
-  "ngPackage": {},
-  "description": "Simple state management for async data",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/deebloo/ts-kit.git"
-  },
-  "keywords": [
-    "TypeScript",
-    "state management",
-    "rxjs"
-  ],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/deebloo/ts-kit/issues"
-  }
+  "ngPackage": {}
 }

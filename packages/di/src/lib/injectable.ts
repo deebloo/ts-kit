@@ -6,6 +6,8 @@ export interface InjectableConfig {
 
 export function Injectable(config: InjectableConfig = { deps: [] }) {
   return function(provider: Provider<any>) {
-    provider.deps = config.deps;
+    if (!provider.deps) {
+      provider.deps = config.deps;
+    }
   };
 }
