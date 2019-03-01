@@ -2,16 +2,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { shareReplay, distinctUntilChanged } from 'rxjs/operators';
 
 import { StateResult } from './tokens';
-import { toObservable } from './util';
+import { toObservable, StateCtx } from './util';
 
-export type DispatchResult<T = any> = (() => StateResult<T>) | StateResult<T>;
+export type DispatchResult<T = any> = ((state: StateCtx<T>) => StateResult<T>) | StateResult<T>;
 
 export class AsyncState<T> {
   private readonly stateManager: BehaviorSubject<T> = new BehaviorSubject<T>(this.initValue);
+  private readonly stateCtx: StateCtx<T> = new StateCtx<T>(() => this.stateManager.getValue());
 
   public readonly value: Observable<T> = this.stateManager.asObservable().pipe(
     distinctUntilChanged(),
-    shareReplay({ bufferSize: 1, refCount: true })
+    shareReplay(1)
   );
 
   constructor(private initValue: T) {}
@@ -21,8 +22,8 @@ export class AsyncState<T> {
   }
 
   setState(change: DispatchResult<T>): Observable<T> {
-    const src = change instanceof Function ? change() : change;
-    const res = toObservable(src).pipe(shareReplay({ bufferSize: 1, refCount: true }));
+    const src = change instanceof Function ? change(this.stateCtx) : change;
+    const res = toObservable(src).pipe(shareReplay(1));
 
     res.subscribe(state => {
       this.stateManager.next(state);

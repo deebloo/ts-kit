@@ -13,14 +13,14 @@ export class AsyncDispatcher<A extends Action = Action> {
 
   dispatch(change: DispatchChange<A>): Observable<A | A[]> {
     const src = change instanceof Function ? change() : change;
-    const result = toObservable(src).pipe(shareReplay({ bufferSize: 1, refCount: true }));
+    const result = toObservable(src).pipe(shareReplay(1));
 
     result.subscribe(actions => {
-      if (Array.isArray(actions)) {
-        actions.forEach(action => this.actionSrc.next(action));
-      } else {
-        this.actionSrc.next(actions);
-      }
+      const handled = Array.isArray(actions) ? actions : [actions];
+
+      handled.forEach(action => {
+        this.actionSrc.next(action);
+      });
     });
 
     return result;

@@ -15,3 +15,7 @@ export const toObservable = <T>(result: T | Promise<T> | Observable<T>): Observa
 
   return of(result);
 };
+
+export class StateCtx<T> {
+  constructor(public getState: () => T) {}
+}
