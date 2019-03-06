@@ -1,5 +1,5 @@
 import { Observable, isObservable, from, of } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { take, map, distinctUntilChanged } from 'rxjs/operators';
 
 import { StateContainer } from './state-container';
 
@@ -21,7 +21,10 @@ export class StateCtx<T> {
 }
 
 export const select = <S, R>(fn: (state: S) => R) => (observable: Observable<S>) => {
-  return observable.pipe(map(fn));
+  return observable.pipe(
+    map(fn),
+    distinctUntilChanged()
+  );
 };
 
 export const selectOnce = <S, R>(fn: (state: S) => R) => (observable: Observable<S>) => {
