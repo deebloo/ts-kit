@@ -15,6 +15,10 @@ export class AsyncState<T> {
     shareReplay(1)
   );
 
+  public get snapshot() {
+    return this.stateManager.getValue();
+  }
+
   constructor(private initValue: T) {}
 
   reset(): Observable<T> {
