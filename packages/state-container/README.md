@@ -77,6 +77,8 @@ import { Store } from '@ngrx/store';
   providedIn: 'root'
 })
 export class NgrxStateContainer {
+  private readonly asyncDispatcher = new AsyncDispatcher();
+
   constructor(public value: Store<any>) {
     this.asyncDispatcher.actionStream.subscribe(action => this.store.dispatch(action))
   }
