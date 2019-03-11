@@ -69,4 +69,4 @@ container.update(() => of('Hello').pipe(map(() => new Increment())));
 |                                              |
 | -------------------------------------------- | 
 | [Async Dispatcher](docs/ASYNC_DISPATCHER.md) |
-| [Async State](docs/ASYNC_DISPATCHER.md)      |
+| [Async State](docs/ASYNC_STATE.md)      |
