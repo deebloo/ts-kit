@@ -66,5 +66,7 @@ container.update(() => of('Hello').pipe(map(() => new Increment())));
 
 ## You can also use the individual pieces that make up a StateContainer for your own needs.
 
-[Async Dispatcher](docs/ASYNC_DISPATCHER.md)
-[Async State](docs/ASYNC_DISPATCHER.md)
+|                                              |
+| -------------------------------------------- | 
+| [Async Dispatcher](docs/ASYNC_DISPATCHER.md) |
+| [Async State](docs/ASYNC_STATE.md)      |
