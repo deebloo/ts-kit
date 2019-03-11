@@ -1,7 +1,6 @@
 import { StateContainer, Action, getSnapshot, AsyncDispatcher } from '@ts-kit/state-container';
-import { take, switchMapTo, mapTo } from 'rxjs/operators';
+import { take, switchMapTo } from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
-import { selectOnce } from '../lib/util';
 
 describe('StateContainer', () => {
   it('should update when an action is passed directly to update', async () => {
@@ -309,8 +308,8 @@ describe('StateContainer', () => {
     const value = await manager
       .update(Promise.resolve([new Increment(), new Increment(), new Increment(), new Increment()]))
       .pipe(
-        mapTo(manager),
-        selectOnce(state => state)
+        switchMapTo(manager.value),
+        take(1)
       )
       .toPromise();
 
