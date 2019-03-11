@@ -64,30 +64,7 @@ container.update(of('Hello').pipe(map(() => new Increment())));
 container.update(() => of('Hello').pipe(map(() => new Increment())));
 ```
 
-## Want to use this with NgRx, NGXS or another state management solution?
+## You can also use the individual pieces that make up a StateContainer for your own needs.
 
-GO FOR IT! This package exposes a class called AsyncDispatcher which StateContainer uses internally.
-Use it to create your own state containers.
-
-```TS
-import { AsyncDispatcher, DispatchChange } from '@ts-kit/state-container';
-import { Store } from '@ngrx/store';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class NgrxStateContainer {
-  private readonly asyncDispatcher = new AsyncDispatcher();
-
-  constructor(public value: Store<any>) {
-    this.asyncDispatcher.actionStream.subscribe(action => this.store.dispatch(action))
-  }
-
-  update(change: DispatchChange): Observable<any> {
-    return this.asyncDispatcher.dispatch(change).pipe(
-      concatMapTo(this.value),
-      take(1)
-    );
-  }
-}
-```
+[Async Dispatcher](docs/ASYNC_DISPATCHER.md)
+[Async State](docs/ASYNC_DISPATCHER.md)

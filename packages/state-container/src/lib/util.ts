@@ -3,9 +3,6 @@ import { take, map, distinctUntilChanged } from 'rxjs/operators';
 
 import { StateContainer } from './state-container';
 
-export const getSnapshot = <T>(container: StateContainer<T>) =>
-  container.value.pipe(take(1)).toPromise();
-
 export const toObservable = <T>(result: T | Promise<T> | Observable<T>): Observable<T> => {
   if (isObservable(result)) {
     return result;
@@ -29,7 +26,10 @@ export const select = <S, R>(fn: (state: S) => R) => (observable: Observable<S>)
 
 export const selectOnce = <S, R>(fn: (state: S) => R) => (observable: Observable<S>) => {
   return observable.pipe(
-    map(fn),
+    select(fn),
     take(1)
   );
 };
+
+export const getSnapshot = <T>(container: StateContainer<T>) =>
+  container.value.pipe(selectOnce(val => val)).toPromise();
