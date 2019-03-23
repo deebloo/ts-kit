@@ -11,6 +11,28 @@ describe('Injector', () => {
     expect(app.get(MyService).foo).toBe('Hello World');
   });
 
+  it('should inject providers in the correct order', () => {
+    class FooService {
+      foo = 'FOO';
+    }
+
+    class BarService {
+      bar = 'BAR';
+    }
+
+    class MyService {
+      readonly value = this.foo.foo + this.bar.bar;
+      constructor(
+        @Inject(FooService) private foo: FooService,
+        @Inject(BarService) private bar: BarService
+      ) {}
+    }
+
+    const app = new Injector();
+
+    expect(app.get(MyService).value).toBe('FOOBAR');
+  });
+
   it('should create a new instance of a provider with a dependency', () => {
     class BarService {
       foo = 'Hello World';
