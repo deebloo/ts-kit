@@ -11,7 +11,7 @@ npm i @ts-kit/di
 #### Example:
 
 ```TS
-import { Injector, Injectable } from '@ts-kit/di';
+import { Injector, Inject } from '@ts-kit/di';
 
 // Write a plain ol JS class
 class FooService {
@@ -21,12 +21,11 @@ class FooService {
 }
 
 // Declare that class as a static dependency of another class
-@Injectable({
-  deps: [FooService]
-})
 class BarService {
   // and instance of that class will be passed to this one;
-  constructor(private foo: FooService) {}
+  constructor(
+    @Inject(FooService) private foo: FooService
+  ) {}
 
   sayHello() {
     return 'Hello From BarService and ' + this.foo.sayHello();

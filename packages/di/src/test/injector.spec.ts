@@ -1,4 +1,4 @@
-import { Injector, Provider, Injectable } from '@ts-kit/di';
+import { Injector, Provider, Inject } from '@ts-kit/di';
 
 describe('Injector', () => {
   it('should create a new instance of a single provider', () => {
@@ -16,11 +16,8 @@ describe('Injector', () => {
       foo = 'Hello World';
     }
 
-    @Injectable({
-      deps: [BarService]
-    })
     class FooService {
-      constructor(private bar: BarService) {}
+      constructor(@Inject(BarService) private bar: BarService) {}
 
       sayHello() {
         return this.bar.foo;
@@ -39,46 +36,32 @@ describe('Injector', () => {
       }
     }
 
-    @Injectable({
-      deps: [A]
-    })
     class B {
-      static deps = [A];
-
-      constructor(private a: A) {}
+      constructor(@Inject(A) private a: A) {}
 
       sayHello() {
         return this.a.sayHello() + '|';
       }
     }
 
-    @Injectable({
-      deps: [A, B]
-    })
     class C {
-      constructor(private a: A, private b: B) {}
+      constructor(@Inject(A) private a: A, @Inject(B) private b: B) {}
 
       sayHello() {
         return this.a.sayHello() + '|' + this.b.sayHello();
       }
     }
 
-    @Injectable({
-      deps: [A, B, C]
-    })
     class D {
-      constructor(private a: A, private b: B, private c: C) {}
+      constructor(@Inject(A) private a: A, @Inject(B) private b: B, @Inject(C) private c: C) {}
 
       sayHello() {
         return this.a.sayHello() + '|' + this.b.sayHello() + this.c.sayHello();
       }
     }
 
-    @Injectable({
-      deps: [D]
-    })
     class E {
-      constructor(private d: D) {}
+      constructor(@Inject(D) private d: D) {}
 
       sayHello() {
         return this.d.sayHello() + '|';
@@ -95,13 +78,8 @@ describe('Injector', () => {
       foo = 'Hello World';
     }
 
-    @Injectable({
-      deps: [BarService]
-    })
     class FooService {
-      static deps = [BarService];
-
-      constructor(private bar: BarService) {}
+      constructor(@Inject(BarService) private bar: BarService) {}
 
       sayHello() {
         return this.bar.foo;
@@ -149,11 +127,8 @@ describe('Injector', () => {
   it('should return the same instance when called', () => {
     class BarService {}
 
-    @Injectable({
-      deps: [BarService]
-    })
     class FooService {
-      constructor(public bar: BarService) {}
+      constructor(@Inject(BarService) public bar: BarService) {}
     }
 
     const app = new Injector();
@@ -164,11 +139,8 @@ describe('Injector', () => {
   it('should return different instances', () => {
     class BarService {}
 
-    @Injectable({
-      deps: [BarService]
-    })
     class FooService {
-      constructor(public bar: BarService) {}
+      constructor(@Inject(BarService) public bar: BarService) {}
     }
 
     const app = new Injector();
@@ -179,11 +151,8 @@ describe('Injector', () => {
   it('should return an instance from a parent injector', () => {
     class BarService {}
 
-    @Injectable({
-      deps: [BarService]
-    })
     class FooService {
-      constructor(public bar: BarService) {}
+      constructor(@Inject(BarService) public bar: BarService) {}
     }
 
     const parent = new Injector();
@@ -198,11 +167,8 @@ describe('Injector', () => {
   it('should use the override in scope over everything else', () => {
     class BarService {}
 
-    @Injectable({
-      deps: [BarService]
-    })
     class FooService {
-      constructor(public bar: BarService) {}
+      constructor(@Inject(BarService) public bar: BarService) {}
     }
 
     const parent = new Injector();
