@@ -1,6 +1,6 @@
 {
   "name": "ts-toolkit",
-  "version": "1.8.1",
+  "version": "2.0.0",
   "description": "A set of packages to help you be more productive",
   "scripts": {
     "test": "./BUILDER.sh test",
