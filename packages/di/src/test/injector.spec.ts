@@ -22,6 +22,7 @@ describe('Injector', () => {
 
     class MyService {
       readonly value = this.foo.foo + this.bar.bar;
+
       constructor(
         @Inject(FooService) private foo: FooService,
         @Inject(BarService) private bar: BarService
