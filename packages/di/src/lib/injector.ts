@@ -23,7 +23,6 @@ export class Injector {
 
   /**
    * recursively check if a singleton instance is available for a provider
-   *
    */
   has(provider: Provider<any>): boolean {
     if (!this.parent) {
@@ -40,54 +39,45 @@ export class Injector {
     if (this.providerMap.has(provider)) {
       // if provider has already been created in this scope return it
       return this.providerMap.get(provider);
-    } else {
-      const override = this.findOverride(provider);
-
-      if (override !== null) {
-        // if an override is available for this Injector use that
-        return this.createSingletonFromOverride(override);
-      } else if (this.parent && this.parent.has(provider)) {
-        // if a parent is available and contains an instance of the provider already use that
-        return this.parent.get(provider);
-      }
     }
 
-    return this.createSingletonFromClass(<ClassProvider<T>>provider);
+    const override = this.findOverride(provider);
+    let instance: T;
+
+    if (override !== null) {
+      // if an override is available for this Injector use that
+      instance = this.createFromOverride(override);
+    } else if (this.parent && this.parent.has(provider)) {
+      // if a parent is available and contains an instance of the provider already use that
+      instance = this.parent.get(provider);
+    } else {
+      // if nothing else found assume provider is a class provider
+      instance = this.create(<ClassProvider<T>>provider);
+    }
+
+    this.providerMap.set(provider, instance);
+
+    return instance;
   }
 
-  /**
-   * Create a new instance of a provider
-   */
   create<T>(P: ClassProvider<T>): T {
     return P.deps ? new P(...P.deps.map(dep => this.get(dep))) : new P();
   }
 
-  private createSingletonFromOverride<T>(provider: OverrideProvider<T>): T | null {
+  private createFromOverride<T>(provider: OverrideProvider<T>): T | null {
     if ('useClass' in provider) {
-      return this.createSingletonFromClass(provider.useClass);
+      return this.create(provider.useClass);
     } else if ('useFactory' in provider) {
-      return this.createSingletonFromFactory(provider);
+      return this.createFromFactory(provider);
     }
 
     return null;
   }
 
-  private createSingletonFromClass<T>(P: ClassProvider<T>): T {
-    const instance = P.deps ? new P(...P.deps.map(dep => this.get(dep))) : new P();
-
-    this.providerMap.set(P, instance);
-
-    return instance;
-  }
-
-  private createSingletonFromFactory<T>(provider: FactoryOverrideProvider<T>) {
-    const instance = provider.deps
+  private createFromFactory<T>(provider: FactoryOverrideProvider<T>) {
+    return provider.deps
       ? provider.useFactory(...provider.deps.map(dep => this.get(dep)))
       : provider.useFactory();
-
-    this.providerMap.set(provider.provide, instance);
-
-    return instance;
   }
 
   private findOverride(provider: Provider<any>): OverrideProvider<any> | null {
