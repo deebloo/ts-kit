@@ -22,7 +22,7 @@ export class AsyncState<T> {
   constructor(private initValue: T) {}
 
   reset(): Observable<T> {
-    return this.setState(() => this.initValue);
+    return this.setState(this.initValue);
   }
 
   setState(change: DispatchResult<T>): Observable<T> {

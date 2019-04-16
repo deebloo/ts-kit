@@ -286,4 +286,26 @@ describe('Injector', () => {
 
     expect(app.get(MyService).sayHello()).toBe('HELLO WORLD TESTING');
   });
+
+  it('should world with custom decortors', () => {
+    class MyFirstService {
+      sayHello() {
+        return 'TESTING';
+      }
+    }
+
+    const MyFirst = () => (c: any, k: string, i: number) => Inject(MyFirstService)(c, k, i);
+
+    class MyService {
+      constructor(@MyFirst() private test: MyFirstService) {}
+
+      sayHello(): string {
+        return 'HELLO WORLD ' + this.test.sayHello();
+      }
+    }
+
+    const app = new Injector();
+
+    expect(app.get(MyService).sayHello()).toBe('HELLO WORLD TESTING');
+  });
 });
