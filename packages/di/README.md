@@ -22,7 +22,7 @@ class FooService {
 
 // Declare that class as a static dependency of another class
 class BarService {
-  // and instance of that class will be passed to this one;
+  // an instance of that class will be passed to this one;
   constructor(
     @Inject(FooService) private foo: FooService
   ) {}
