@@ -1,6 +1,0 @@
-{
-  "editor.formatOnSave": true,
-  "editor.tabSize": 2,
-  "files.trimTrailingWhitespace": false,
-  "typescript.tsdk": "./node_modules/typescript/lib"
-}
