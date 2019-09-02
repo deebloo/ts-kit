@@ -14,5 +14,5 @@ release() {
     build &&
     node tools/update_version "$PROJECT" &&
     cd "@ts-kit/$PROJECT" &&
-    npm publish --access public
+    npm publish --access public --registry "https://registry.npmjs.org"
 }

@@ -7,9 +7,6 @@
     "build": "./BUILDER.sh build",
     "release": "./BUILDER.sh release"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deebloo/ts-kit.git"
