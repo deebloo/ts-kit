@@ -1,11 +1,14 @@
 {
   "name": "ts-toolkit",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A set of packages to help you be more productive",
   "scripts": {
     "test": "./BUILDER.sh test",
     "build": "./BUILDER.sh build",
     "release": "./BUILDER.sh release"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "repository": {
     "type": "git",
@@ -17,19 +20,17 @@
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
   "devDependencies": {
-    "@angular/compiler": "^7.2.10",
-    "@angular/compiler-cli": "^7.2.10",
-    "@angular/core": "^7.2.10",
+    "@angular/compiler": "^8.0.0",
+    "@angular/compiler-cli": "^8.0.0",
     "@types/jest": "^23.3.9",
-    "jest": "^24.5.0",
-    "ng-packagr": "^4.7.1",
+    "jest": "~24.5.0",
     "prettier": "^1.15.2",
     "rxjs": "^6.0.0",
-    "ts-jest": "^23.10.4",
-    "ts-loader": "^5.3.3",
-    "tsickle": "^0.34.3",
-    "typescript": "~3.2.0",
-    "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "ts-jest": "^24.0.2",
+    "tsickle": "^0.37.0",
+    "typescript": "~3.5.0"
+  },
+  "dependencies": {
+    "ng-packagr": "^5.5.0"
   }
 }
