@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/state-container",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
     "dest": "dist",
