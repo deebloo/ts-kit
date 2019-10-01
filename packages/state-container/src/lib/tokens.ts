@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
  * @param payload - (OPTIONAL) the content of the action
  * @param source - (OPTIONAL) a marker showing WHERE the action originated
  */
-export interface Action<T = any, P = any> {
+export interface Action<T = any, P = any, S = string> {
   type: T;
   payload?: P;
-  source?: string;
+  source?: S;
 }
 export type StateChange<A = Action> = A | A[] | Observable<A | A[]> | Promise<A | A[]>;
 export type StateResult<T> = T | Observable<T> | Promise<T>;

@@ -3,10 +3,18 @@
   "version": "0.0.0",
   "ngPackage": {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "../../@ts-kit/type-utils",
+    "dest": "dist",
     "lib": {
       "entryFile": "src/public_api.ts"
     }
+  },
+  "files": [
+    "dist/**/**"
+  ],
+  "scripts": {
+    "test": "jest --verbose=false -c jest.config.js",
+    "build": "ng-packagr -p package.json",
+    "prepublish": "npm run build"
   },
   "description": "Type utilities for TypeScript",
   "repository": {

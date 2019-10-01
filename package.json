@@ -1,15 +1,13 @@
 {
-  "name": "ts-toolkit",
+  "name": "ts-kit",
   "version": "2.0.3",
   "description": "A set of packages to help you be more productive",
-  "scripts": {
-    "test": "./BUILDER.sh test",
-    "build": "./BUILDER.sh build",
-    "release": "./BUILDER.sh release"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/deebloo/ts-kit.git"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap"
   },
   "author": "deebloo",
   "license": "MIT",
@@ -22,14 +20,12 @@
     "@angular/core": "^8.2.4",
     "@types/jest": "^23.3.9",
     "jest": "~24.5.0",
+    "lerna": "^3.16.4",
+    "ng-packagr": "^5.5.0",
     "prettier": "^1.15.2",
-    "rxjs": "^6.0.0",
     "ts-jest": "^24.0.2",
     "tsickle": "^0.37.0",
     "typescript": "~3.5.0",
-    "zone.js": "^0.10.2"
-  },
-  "dependencies": {
-    "ng-packagr": "^5.5.0"
+    "zone.js": "~0.9.1"
   }
 }
