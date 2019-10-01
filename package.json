@@ -8,7 +8,8 @@
   },
   "scripts": {
     "postinstall": "lerna bootstrap --ignore-prepublish",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "publish": "lerna run build --stream && lerna publish"
   },
   "author": "deebloo",
   "license": "MIT",

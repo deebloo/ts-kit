@@ -8,8 +8,7 @@
   ],
   "scripts": {
     "test": "ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
-    "build": "tsc --outDir out-browser --module es2015 && npx tsc --outDir out-node",
-    "prepublish": "npm run build"
+    "build": "tsc --outDir out-node --module commonjs && tsc --outDir out-browser --module es2015"
   },
   "description": "Type utilities for TypeScript",
   "repository": {
@@ -24,5 +23,5 @@
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
-  "gitHead": "86e47538d6c5890e1dc757509b2c0ff14cb270e4"
+  "gitHead": "73b82f825b951aeea21256bb563426b6fb1a917c"
 }
