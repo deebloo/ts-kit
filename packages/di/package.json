@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/di",
-  "version": "2.0.7",
+  "version": "2.0.8-alpha.0",
   "files": [
     "out-browser/**/*",
     "out-node/**/*"
