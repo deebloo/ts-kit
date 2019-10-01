@@ -9,7 +9,9 @@
   ],
   "scripts": {
     "test": "ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
-    "build": "tsc --outDir out-node --module commonjs && tsc --outDir out-browser --module es2015"
+    "build:browser": "tsc --outDir out-browser --module es2015",
+    "build:node": "tsc --outDir out-node --module commonjs",
+    "build": "npm run build:browser && npm run build:node"
   },
   "description": "Type utilities for TypeScript",
   "repository": {
