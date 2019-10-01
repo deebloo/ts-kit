@@ -1,19 +1,14 @@
 {
   "name": "@ts-kit/type-utils",
   "version": "2.0.5",
-  "ngPackage": {
-    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "dest": "dist",
-    "lib": {
-      "entryFile": "src/public_api.ts"
-    }
-  },
+  "main": "src/public_api.js",
   "files": [
-    "dist/**/*"
+    "out-browser/**/*",
+    "out-node/**/*"
   ],
   "scripts": {
-    "test": "jest --verbose=false -c jest.config.js",
-    "build": "ng-packagr -p package.json",
+    "test": "ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
+    "build": "tsc --outDir out-node --module es2015 && tsc --outDir out-browser",
     "prepublish": "npm run build"
   },
   "description": "Type utilities for TypeScript",

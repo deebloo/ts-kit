@@ -1,4 +1,4 @@
-import { Opaque } from '@ts-kit/type-utils';
+import { Opaque } from '../public_api';
 
 describe('Opaque', () => {
   it('should allow you to create unique tokens from a primitive type', () => {

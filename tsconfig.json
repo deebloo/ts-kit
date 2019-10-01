@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "esModuleInterop": true,
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es2015",
     "sourceMap": true,
     "declaration": true,
-    "jsx": "preserve",
-    "lib": ["es2017", "dom"],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -14,10 +13,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
-    "paths": {
-      "@ts-kit/*": ["./packages/*/src/public_api.ts"]
-    }
+    "baseUrl": "."
   },
-  "exclude": [".git", "node_modules"]
+  "exclude": ["node_modules"]
 }

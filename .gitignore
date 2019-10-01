@@ -6,7 +6,10 @@
 /tmp
 /out-tsc
 /builds
-/@ts-kit
+**/*.js.map
+**/*.d.ts
+**/*.js
+**/out-*/
 
 
 # dependencies

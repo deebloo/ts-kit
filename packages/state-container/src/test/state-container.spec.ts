@@ -1,4 +1,4 @@
-import { StateContainer, Action, getSnapshot, AsyncDispatcher } from '@ts-kit/state-container';
+import { StateContainer, Action, getSnapshot, AsyncDispatcher } from '../public_api';
 import { take, switchMapTo } from 'rxjs/operators';
 import { Observable, of, forkJoin } from 'rxjs';
 

@@ -1,4 +1,4 @@
-import { Injector, Provider, Inject } from '@ts-kit/di';
+import { Injector, Provider, Inject } from '../public_api';
 
 describe('Injector', () => {
   it('should create a new instance of a single provider', () => {
