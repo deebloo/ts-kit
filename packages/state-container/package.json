@@ -1,7 +1,8 @@
 {
   "name": "@ts-kit/state-container",
   "version": "2.0.8",
-  "main": "src/public_api.js",
+  "main": "out-node/public_api.js",
+  "browser": "out-browser/public_api.js",
   "files": [
     "out-browser/**/*",
     "out-node/**/*"
@@ -20,7 +21,7 @@
     "state management",
     "rxjs"
   ],
-  "author": "",
+  "author": "deebloo",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"

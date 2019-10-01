@@ -1,7 +1,8 @@
 {
   "name": "@ts-kit/type-utils",
   "version": "2.0.8",
-  "main": "src/public_api.js",
+  "main": "out-node/public_api.js",
+  "browser": "out-browser/public_api.js",
   "files": [
     "out-browser/**/*",
     "out-node/**/*"
@@ -18,7 +19,7 @@
   "keywords": [
     "TypeScript"
   ],
-  "author": "",
+  "author": "deebloo",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
