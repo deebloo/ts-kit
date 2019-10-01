@@ -8,6 +8,9 @@
       "entryFile": "src/public_api.ts"
     }
   },
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "test": "jest --verbose=false -c jest.config.js",
     "build": "ng-packagr -p package.json",
@@ -27,5 +30,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
-  }
+  },
+  "gitHead": "4e256e880f00f757ab8fb18a6c518bca06558b71"
 }

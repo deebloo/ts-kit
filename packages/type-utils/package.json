@@ -9,7 +9,7 @@
     }
   },
   "files": [
-    "dist/**/**"
+    "dist/**/*"
   ],
   "scripts": {
     "test": "jest --verbose=false -c jest.config.js",
@@ -28,5 +28,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
-  }
+  },
+  "gitHead": "4e256e880f00f757ab8fb18a6c518bca06558b71"
 }
