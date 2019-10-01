@@ -9,6 +9,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap --ignore-prepublish",
     "test": "lerna run test --stream",
+    "build": "lerna run build --stream",
     "publish": "lerna run build --stream && lerna publish"
   },
   "author": "deebloo",

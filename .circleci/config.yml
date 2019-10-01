@@ -3,7 +3,7 @@ version: 2.1
 executors:
   node_env:
     docker:
-      - image: circleci/node:10.13.0-jessie-browsers
+      - image: node:10.16.3-slim
     working_directory: ~/project
 
 commands:
@@ -26,16 +26,12 @@ jobs:
     executor: node_env
     steps:
       - prepare_env
-      - run: npm run build di
-      - run: npm run build state-container
-      - run: npm run build type-utils
+      - run: npm run build
   test:
     executor: node_env
     steps:
       - prepare_env
-      - run: npm run test di
-      - run: npm run test state-container
-      - run: npm run test type-utils
+      - run: npm run test
 
 workflows:
   version: 2
