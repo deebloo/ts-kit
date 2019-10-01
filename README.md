@@ -1,4 +1,4 @@
-# TsToolkit [![Actions Status](https://github.com/deebloo/ts-kit/workflows/blank/badge.svg)](https://github.com/deebloo/ts-kit/actions)
+# TsToolkit [![Actions Status](https://github.com/deebloo/ts-kit/workflows/ci/badge.svg)](https://github.com/deebloo/ts-kit/actions)
 
 A set of packages for helping with development
 
