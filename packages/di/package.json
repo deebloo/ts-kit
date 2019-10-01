@@ -8,8 +8,8 @@
   "main": "out-node/public_api.js",
   "browser": "out-browser/public_api.js",
   "scripts": {
-    "test": "ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
-    "build": "tsc --outDir out-node --module es2015 && tsc --outDir out-browser",
+    "test": "npx ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
+    "build": "npx tsc --outDir out-node --module es2015 && tsc --outDir out-browser",
     "prepublish": "npm run build"
   },
   "description": "Dependency Injection in ~800 bytes",
@@ -27,5 +27,5 @@
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
-  "gitHead": "e8e1d860aef496f3614d21004c5efdc2dcc85689"
+  "gitHead": "4104e525ffcda182708bdec7f1a0d1cc337b799f"
 }
