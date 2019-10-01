@@ -1,4 +1,4 @@
-# TsToolkit [![CircleCI](https://circleci.com/gh/deebloo/ts-kit.svg?style=svg)](https://circleci.com/gh/deebloo/ts-kit)
+# TsToolkit [![Actions Status](https://github.com/deebloo/ts-kit/workflows/blank/badge.svg)](https://github.com/deebloo/ts-kit/actions)
 
 A set of packages for helping with development
 
