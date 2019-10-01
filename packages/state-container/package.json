@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/state-container",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "main": "src/public_api.js",
   "files": [
     "out-browser/**/*",
