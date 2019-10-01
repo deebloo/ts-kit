@@ -7,7 +7,7 @@
     "url": "git+https://github.com/deebloo/ts-kit.git"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap --ignore-prepublish --hoist",
+    "postinstall": "lerna bootstrap --ignore-prepublish",
     "test": "lerna run test --stream"
   },
   "author": "deebloo",

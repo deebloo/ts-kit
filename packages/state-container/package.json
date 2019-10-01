@@ -7,8 +7,8 @@
     "out-node/**/*"
   ],
   "scripts": {
-    "test": "npx ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
-    "build": "npx tsc --outDir out-node --module es2015 && tsc --outDir out-browser",
+    "test": "ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
+    "build": "tsc --outDir out-browser --module es2015 && npx tsc --outDir out-node",
     "prepublish": "npm run build"
   },
   "description": "Simple state management for async data",
@@ -32,5 +32,5 @@
   "devDependencies": {
     "rxjs": "^6.0.0"
   },
-  "gitHead": "4104e525ffcda182708bdec7f1a0d1cc337b799f"
+  "gitHead": "86e47538d6c5890e1dc757509b2c0ff14cb270e4"
 }
