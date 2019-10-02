@@ -75,9 +75,9 @@ export class Injector {
   }
 
   private createFromFactory<T>(provider: FactoryOverrideProvider<T>) {
-    return provider.deps
-      ? provider.useFactory.apply(provider, provider.deps.map(dep => this.get(dep)))
-      : provider.useFactory.apply(provider, []);
+    const deps = provider.deps ? provider.deps.map(dep => this.get(dep)) : [];
+
+    return provider.useFactory.apply(provider, deps);
   }
 
   private findOverride(provider: Provider<any>): OverrideProvider<any> | null {
