@@ -81,12 +81,12 @@ export class Injector {
   }
 
   private findOverride(provider: Provider<any>): OverrideProvider<any> | null {
-    if (this.opts.providers) {
-      const override = this.opts.providers.find(override => override.provide === provider);
-
-      return override || null;
+    if (!this.opts.providers) {
+      return null;
     }
 
-    return null;
+    const override = this.opts.providers.find(override => override.provide === provider);
+
+    return override || null;
   }
 }
