@@ -7,10 +7,10 @@
     "url": "git+https://github.com/deebloo/ts-kit.git"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap --ignore-prepublish --hoist",
+    "postinstall": "lerna bootstrap",
     "test": "lerna run test --stream",
     "build": "lerna run build --stream",
-    "publish": "lerna run build --stream && lerna publish"
+    "publish": "lerna publish"
   },
   "author": "deebloo",
   "license": "MIT",
