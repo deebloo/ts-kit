@@ -3,6 +3,8 @@
 # compiled output
 **/out-*/
 **/.nyc_output
+**/.cache
+**/.d.ts
 
 # dependencies
 **/node_modules/

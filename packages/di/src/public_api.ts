@@ -1,3 +1,4 @@
-export { Injector, InjectorOptions } from './lib/injector';
-export { Provider, OverrideProvider } from './lib/provider';
-export { Inject } from './lib/inject';
+export * from './lib/injector';
+export * from './lib/provider';
+export * from './lib/inject';
+export * from './lib/service';

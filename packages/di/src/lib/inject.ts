@@ -1,7 +1,7 @@
-import { Provider } from './provider';
+import { SymbolToken, ProviderToken } from './provider';
 
-export function Inject(injectable: Provider<any>) {
-  return function(provider: Provider<any>, _prop: string, index: number) {
+export function Inject(injectable: ProviderToken<any>) {
+  return function(provider: SymbolToken<any>, _prop: string, index: number) {
     if (!provider.deps) {
       provider.deps = [];
     }

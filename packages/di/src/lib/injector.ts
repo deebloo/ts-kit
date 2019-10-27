@@ -1,8 +1,14 @@
-import { Provider, OverrideProvider, ClassProvider, FactoryOverrideProvider } from './provider';
+import {
+  ProviderToken,
+  OverrideProvider,
+  ClassProviderToken,
+  FactoryProvider,
+  SymbolToken
+} from './provider';
 
 export interface InjectorOptions {
   providers?: OverrideProvider<any>[];
-  bootstrap?: Provider<any>[];
+  bootstrap?: ProviderToken<any>[];
 }
 
 /**
@@ -13,7 +19,8 @@ export interface InjectorOptions {
  * @param parent a parent instance of Injector
  */
 export class Injector {
-  private providerMap = new WeakMap<Provider<any>, any>();
+  private providerWeakMap = new WeakMap<SymbolToken<any>, any>();
+  private providerMap = new Map<string, any>();
 
   constructor(private opts: InjectorOptions = {}, private parent?: Injector) {
     if (this.opts.bootstrap) {
@@ -24,43 +31,62 @@ export class Injector {
   /**
    * recursively check if a singleton instance is available for a provider
    */
-  has(provider: Provider<any>): boolean {
+  has(token: ProviderToken<any>): boolean {
     if (!this.parent) {
-      return this.providerMap.has(provider);
+      return typeof token === 'string'
+        ? this.providerMap.has(token)
+        : this.providerWeakMap.has(token);
     } else {
-      return this.parent.has(provider);
+      return this.parent.has(token);
     }
+  }
+
+  resolve<T>(token: ProviderToken<T>): T {
+    const provider = this.findProvider(token);
+
+    if (provider) {
+      // if an override is available for this Injector use that
+      return this.createFromOverride(provider);
+    }
+
+    if (typeof provider === 'string') {
+      throw new Error(`No provider found for ${provider}`);
+    }
+
+    const symbolToken = token as SymbolToken<T>;
+
+    if (this.parent && (this.parent.has(symbolToken) || symbolToken.provideInRoot)) {
+      // if a parent is available and contains an instance of the provider already use that
+      return this.parent.get(token);
+    }
+
+    // if nothing else found assume provider is a class provider
+    return this.create(<ClassProviderToken<T>>token);
   }
 
   /**
    * fetches a singleton instance of a provider
    */
-  get<T>(provider: Provider<T>): T {
-    if (this.providerMap.has(provider)) {
+  get<T>(token: ProviderToken<T>): T {
+    if (typeof token === 'string' && this.providerMap.has(token)) {
       // if provider has already been created in this scope return it
-      return this.providerMap.get(provider);
+      return this.providerMap.get(token);
+    } else if (this.providerWeakMap.has(token as SymbolToken<T>)) {
+      return this.providerWeakMap.get(token as SymbolToken<T>);
     }
 
-    const override = this.findOverride(provider);
-    let instance: T;
+    let instance: T = this.resolve(token);
 
-    if (override !== null) {
-      // if an override is available for this Injector use that
-      instance = this.createFromOverride(override);
-    } else if (this.parent && this.parent.has(provider)) {
-      // if a parent is available and contains an instance of the provider already use that
-      instance = this.parent.get(provider);
+    if (typeof token === 'string') {
+      this.providerMap.set(token, instance);
     } else {
-      // if nothing else found assume provider is a class provider
-      instance = this.create(<ClassProvider<T>>provider);
+      this.providerWeakMap.set(token, instance);
     }
-
-    this.providerMap.set(provider, instance);
 
     return instance;
   }
 
-  create<T>(P: ClassProvider<T>): T {
+  create<T>(P: ClassProviderToken<T>): T {
     return P.deps ? new P(...P.deps.map(dep => this.get(dep))) : new P();
   }
 
@@ -68,25 +94,23 @@ export class Injector {
     if ('useClass' in provider) {
       return this.create(provider.useClass);
     } else if ('useFactory' in provider) {
-      return this.createFromFactory(provider);
+      return this.createFromFactory(provider as FactoryProvider<T>);
     }
 
     return null;
   }
 
-  private createFromFactory<T>(provider: FactoryOverrideProvider<T>) {
-    const deps = provider.deps ? provider.deps.map(dep => this.get(dep)) : [];
+  private createFromFactory<T>(token: FactoryProvider<T>) {
+    const deps = token.deps ? token.deps.map(dep => this.get(dep)) : [];
 
-    return provider.useFactory.apply(provider, deps);
+    return token.useFactory.apply(token, deps);
   }
 
-  private findOverride(provider: Provider<any>): OverrideProvider<any> | null {
+  private findProvider(token: ProviderToken<any>): OverrideProvider<any> | null {
     if (!this.opts.providers) {
       return null;
     }
 
-    const override = this.opts.providers.find(override => override.provide === provider);
-
-    return override || null;
+    return this.opts.providers.find(provider => provider.provide === token) || null;
   }
 }

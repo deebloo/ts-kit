@@ -1,22 +1,31 @@
-export type ClassProvider<T> = {
-  deps?: Provider<any>[];
+export type ClassProviderToken<T> = {
+  deps?: ProviderToken<any>[];
+  provideInRoot?: boolean;
 
   new (...args: any[]): T;
 };
 
-export type AbstractClassProvider<T> = Function & { prototype: T; deps?: Provider<any>[] };
+export type AbstractClassProviderToken<T> = Function & {
+  prototype: T;
+  deps?: ProviderToken<any>[];
+  provideInRoot?: boolean;
+};
 
-export type Provider<T> = ClassProvider<T> | AbstractClassProvider<T>;
+export type SymbolToken<T> = ClassProviderToken<T> | AbstractClassProviderToken<T>;
 
-export interface ClassOverrideProvider<T> {
-  provide: Provider<T>;
-  useClass: ClassProvider<T>;
+export type ProviderToken<T> = SymbolToken<T> | string;
+
+export interface ClassProvider<T> {
+  provide: ProviderToken<T>;
+  useClass: ClassProviderToken<T>;
+  provideInRoot?: boolean;
 }
 
-export interface FactoryOverrideProvider<T> {
-  provide: Provider<T>;
+export interface FactoryProvider<T> {
+  provide: ProviderToken<T>;
   useFactory: (...args: any[]) => T;
-  deps?: Provider<any>[];
+  deps?: ProviderToken<any>[];
+  provideInRoot?: boolean;
 }
 
-export type OverrideProvider<T> = ClassOverrideProvider<T> | FactoryOverrideProvider<T>;
+export type OverrideProvider<T> = ClassProvider<T> | FactoryProvider<T>;

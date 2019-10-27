@@ -7,7 +7,6 @@
     "url": "git+https://github.com/deebloo/ts-kit.git"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap",
     "test": "lerna run test --stream",
     "test:coverage": "lerna run test:coverage --stream",
     "build": "lerna run build --stream",
@@ -20,11 +19,25 @@
   },
   "devDependencies": {
     "@types/jasmine": "^3.4.1",
+    "@types/page": "^1.8.0",
     "jasmine": "^3.5.0",
     "lerna": "^3.16.4",
+    "lit-html": "^1.1.2",
     "nyc": "^14.1.1",
     "prettier": "^1.15.2",
+    "rxjs": "^6.0.0",
+    "ts-loader": "^6.2.0",
     "ts-node": "^8.4.1",
-    "typescript": "~3.5.0"
+    "typescript": "~3.5.0",
+    "webpack": "^4.41.2",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "dependencies": {
+    "@ts-kit/di": "file:packages/di",
+    "@ts-kit/lit-framework": "file:packages/lit-framework",
+    "@ts-kit/state-container": "file:packages/state-container",
+    "@ts-kit/type-utils": "file:packages/type-utils"
   }
 }

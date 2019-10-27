@@ -1,4 +1,5 @@
-import { Injector, Provider, Inject } from '../public_api';
+import { Injector, ProviderToken, Inject } from '../public_api';
+import { RootService } from '../lib/service';
 
 describe('Injector', () => {
   it('should create a new instance of a single provider', () => {
@@ -128,7 +129,7 @@ describe('Injector', () => {
   });
 
   it('immediately initialize specified providers', () => {
-    const initialized: Provider<any>[] = [];
+    const initialized: ProviderToken<any>[] = [];
 
     class BarService {
       constructor() {
@@ -307,5 +308,23 @@ describe('Injector', () => {
     const app = new Injector();
 
     expect(app.get(MyService).sayHello()).toBe('HELLO WORLD TESTING');
+  });
+
+  it('should use the parent Injector if specified', () => {
+    @RootService()
+    class BarService {}
+
+    @RootService()
+    class FooService {
+      constructor(@Inject(BarService) public bar: BarService) {}
+    }
+
+    const parent = new Injector();
+    const child1 = new Injector({}, parent);
+    const child2 = new Injector({}, child1);
+
+    const app = new Injector({}, child2);
+
+    expect(app.get(FooService)).toBe(parent.get(FooService));
   });
 });

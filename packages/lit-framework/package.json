@@ -1,0 +1,40 @@
+{
+  "name": "@ts-kit/lit-framework",
+  "version": "2.0.9",
+  "main": "out-node/public_api.js",
+  "browser": "out-browser/public_api.js",
+  "sideEffects": false,
+  "files": [
+    "out-browser/**/*",
+    "out-node/**/*"
+  ],
+  "description": "Framework arouhd Lit-Html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deebloo/ts-kit.git"
+  },
+  "keywords": [
+    "TypeScript",
+    "DI",
+    "Dependency Injection"
+  ],
+  "author": "deebloo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deebloo/ts-kit/issues"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "peerDependencies": {
+    "lit-html": "^1.1.2",
+    "rxjs": "^6.0.0"
+  },
+  "dependencies": {
+    "@ts-kit/di": "*",
+    "@ts-kit/state-container": "*",
+    "page": "^1.11.5"
+  },
+  "gitHead": "73b82f825b951aeea21256bb563426b6fb1a917c"
+}
