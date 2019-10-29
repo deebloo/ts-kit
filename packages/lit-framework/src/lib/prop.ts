@@ -1,7 +1,13 @@
+import { ComponentInstance } from './component';
+
 export function Prop() {
   return function(instance: any, key: string) {
-    instance.props = instance.props || [];
+    const i = instance as ComponentInstance;
 
-    instance.props.push(key);
+    if (!i.props) {
+      i.props = [];
+    }
+
+    i.props.push(key);
   };
 }

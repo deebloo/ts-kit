@@ -29,11 +29,9 @@
   },
   "peerDependencies": {
     "lit-html": "^1.1.2",
-    "rxjs": "^6.0.0"
+    "@ts-kit/di": "*"
   },
   "dependencies": {
-    "@ts-kit/di": "*",
-    "@ts-kit/state-container": "*",
     "page": "^1.11.5"
   },
   "gitHead": "73b82f825b951aeea21256bb563426b6fb1a917c"

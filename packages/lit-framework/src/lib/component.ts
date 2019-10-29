@@ -14,7 +14,7 @@ export interface ComponentConfig<T> {
 }
 
 export interface OnPropChanges {
-  onPropChanges: (prop: string) => void;
+  onPropChanges: (prop: string, value: any) => void;
 }
 
 export type ComponentInstance = {
@@ -42,8 +42,8 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
             {
               provide: ComponentState,
               useFactory: () => {
-                return new ComponentState(
-                  (state: T) => render(config.template(state, this.run), this.shadow),
+                return new ComponentState<T>(
+                  state => render(config.template(state, this.run), this.shadow),
                   config.defaultState as T
                 );
               }
@@ -80,7 +80,7 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
               this.componentInstance[prop] = value;
 
               if (this.componentInstance.onPropChanges) {
-                this.componentInstance.onPropChanges(prop);
+                this.componentInstance.onPropChanges(prop, value);
               }
             },
             get: () => this.componentInstance[prop]

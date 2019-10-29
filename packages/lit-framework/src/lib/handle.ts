@@ -4,7 +4,9 @@ export function Handle(action: string) {
   return function(instance: any, key: string) {
     const i = instance as ComponentInstance;
 
-    i.handlers = i.handlers || {};
+    if (!i.handlers) {
+      i.handlers = {};
+    }
 
     i.handlers[action] = i[key];
   };

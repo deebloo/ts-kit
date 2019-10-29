@@ -37,7 +37,8 @@ export class TodoForm {
     @State() private state: ComponentState<string>
   ) {}
 
-  // This is an issue with how lit-html handles user input. the user value needs to be synced to the state
+  // This is an issue with how lit-html handles user input.
+  // the user value needs to be synced to the state
   @Handle('ON_INPUT') onInput(e: Event) {
     const input = e.target as HTMLInputElement;
 
@@ -48,10 +49,9 @@ export class TodoForm {
     e.preventDefault();
 
     const form = new FormData(e.target as HTMLFormElement);
+    const detail = form.get('todo') as string;
 
-    this.elRef.dispatchEvent(
-      new CustomEvent<string>('add_todo', { detail: form.get('todo') as string })
-    );
+    this.elRef.dispatchEvent(new CustomEvent<string>('add_todo', { detail }));
 
     this.value = '';
   }

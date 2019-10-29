@@ -17,9 +17,9 @@ interface RouteRedirect {
 
 type Route = RouteLoad | RouteRedirect;
 
-type Feature = (outlet: HTMLElement, rootInjector: Injector) => void;
+type AppFeature = (outlet: HTMLElement, rootInjector: Injector) => void;
 
-export const createRouter = (routes: Route[]): Feature => {
+export const createRouter = (routes: Route[]): AppFeature => {
   return (outlet: HTMLElement) => {
     routes.forEach(route => {
       page(route.path, () => {
@@ -43,7 +43,7 @@ export const createRouter = (routes: Route[]): Feature => {
 
 export interface Application {
   host: HTMLElement;
-  features: Feature[];
+  features: AppFeature[];
 }
 
 export const createApp = (app: Application) => {
