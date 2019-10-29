@@ -11,4 +11,4 @@ export * from './lib/component';
 export * from './lib/state';
 export * from './lib/prop';
 export * from './lib/el-ref';
-export * from './lib/action';
+export * from './lib/handle';

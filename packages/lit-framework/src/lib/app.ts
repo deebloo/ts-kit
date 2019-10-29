@@ -7,7 +7,7 @@ export const html = (strings: TemplateStringsArray, ...values: unknown[]) =>
 
 interface RouteLoad {
   path: string;
-  load: () => HTMLElement;
+  load: () => HTMLElement | Promise<HTMLElement>;
 }
 
 interface RouteRedirect {
@@ -17,12 +17,20 @@ interface RouteRedirect {
 
 type Route = RouteLoad | RouteRedirect;
 
-export const createRouter = (routes: Route[]) => {
+type Feature = (outlet: HTMLElement, rootInjector: Injector) => void;
+
+export const createRouter = (routes: Route[]): Feature => {
   return (outlet: HTMLElement) => {
     routes.forEach(route => {
       page(route.path, () => {
         if ('load' in route) {
-          render(route.load(), outlet);
+          const routeRes = route.load();
+
+          if (routeRes instanceof Promise) {
+            routeRes.then(el => render(el, outlet));
+          } else {
+            render(route.load(), outlet);
+          }
         } else if ('redirectTo' in route) {
           page.redirect(route.redirectTo);
         }
@@ -33,10 +41,15 @@ export const createRouter = (routes: Route[]) => {
   };
 };
 
-export const createApp = (outlet: HTMLElement, router: (outlet: HTMLElement) => void) => {
+export interface Application {
+  host: HTMLElement;
+  features: Feature[];
+}
+
+export const createApp = (app: Application) => {
   window.ROOT__INJECTOR__ = new Injector();
 
-  if (router) {
-    router(outlet);
-  }
+  app.features.forEach(feature => {
+    feature(app.host, window.ROOT__INJECTOR__);
+  });
 };

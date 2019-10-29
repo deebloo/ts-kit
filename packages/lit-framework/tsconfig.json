@@ -1,7 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "commonjs",
+    "declaration": false
   },
   "include": ["src/**/*"],
   "exclode": ["node_modules"]

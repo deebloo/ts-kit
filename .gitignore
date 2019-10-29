@@ -4,7 +4,7 @@
 **/out-*/
 **/.nyc_output
 **/.cache
-**/.d.ts
+**/*.d.ts
 
 # dependencies
 **/node_modules/

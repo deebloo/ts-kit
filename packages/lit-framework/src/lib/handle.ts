@@ -1,11 +1,11 @@
 import { ComponentInstance } from './component';
 
-export function Action(action: string) {
+export function Handle(action: string) {
   return function(instance: any, key: string) {
     const i = instance as ComponentInstance;
 
-    i.actions = i.actions || {};
+    i.handlers = i.handlers || {};
 
-    i.actions[action] = i[key];
+    i.handlers[action] = i[key];
   };
 }

@@ -6,78 +6,87 @@ import { ELEMENT_REF } from './el-ref';
 
 export interface ComponentConfig<T> {
   tag: string;
-  template: (state: T, run: (event: string, payload?: any) => (e: Event) => void) => TemplateResult;
-}
-
-export type ComponentDef<T> = ClassProviderToken<T>;
-
-export interface ComponentInstance {
-  props: string[];
-  actions: { [key: string]: Function };
-  handlers: { [key: string]: Function };
-  [key: string]: any;
+  defaultState?: T;
+  template: (
+    state: T,
+    run: (event: string, ...args: unknown[]) => (e: Event) => void
+  ) => TemplateResult;
 }
 
 export interface OnPropChanges {
   onPropChanges: (prop: string) => void;
 }
 
-export function Component<T>(config: ComponentConfig<T>) {
-  return function(componentDef: ComponentDef<any>) {
-    customElements.define(
-      config.tag,
-      class extends HTMLElement {
-        constructor() {
-          super();
+export type ComponentInstance = {
+  props: string[];
+  handlers: { [key: string]: Function };
+  [key: string]: any;
+} & Partial<OnPropChanges>;
 
-          const shadow = this.attachShadow({ mode: 'open' });
+interface ElementComponent<T> {
+  componentInjector: Injector;
+  componentInstance: ComponentInstance;
+  componentState: ComponentState<T>;
+}
 
-          const actionHandler = (eventName: string, payload: any) => (e: Event) => {
-            if (eventName in instance.actions) {
-              instance.actions[eventName].call(instance, e, payload);
-            }
-          };
-
-          const injector = new Injector(
+export const Component = <T = any>(config: ComponentConfig<T>) => (
+  componentDef: ClassProviderToken<any>
+) => {
+  customElements.define(
+    config.tag,
+    class extends HTMLElement implements ElementComponent<T> {
+      public componentInjector: Injector = new Injector(
+        {
+          providers: [
+            { provide: ELEMENT_REF, useFactory: () => this },
             {
-              providers: [
-                {
-                  provide: ComponentState,
-                  useFactory: () =>
-                    new ComponentState((state: any) =>
-                      render(config.template(state, actionHandler), shadow)
-                    )
-                },
-                {
-                  provide: ELEMENT_REF,
-                  useFactory: () => this
-                }
-              ]
-            },
-            window.ROOT__INJECTOR__
-          );
-
-          const instance: ComponentInstance = injector.create(componentDef);
-
-          instance.props = instance.props || [];
-
-          render(config.template(undefined as any, actionHandler), shadow);
-
-          for (let i = 0; i < instance.props.length; i++) {
-            const prop = instance.props[i];
-
-            Object.defineProperty(this, prop, {
-              set(value) {
-                instance[prop] = value;
-
-                if ('onPropChanges' in instance) {
-                  instance.onPropChanges(prop, value);
-                }
+              provide: ComponentState,
+              useFactory: () => {
+                return new ComponentState(
+                  (state: T) => render(config.template(state, this.run), this.shadow),
+                  config.defaultState as T
+                );
               }
-            });
-          }
+            }
+          ]
+        },
+        window.ROOT__INJECTOR__ // The root injector is global
+      );
+
+      public componentInstance: ComponentInstance = this.componentInjector.create(componentDef);
+
+      public componentState = this.componentInjector.get(ComponentState);
+
+      private shadow = this.attachShadow({ mode: 'open' });
+
+      private run = (eventName: string, payload: any) => (e: Event) => {
+        if (eventName in this.componentInstance.handlers) {
+          this.componentInstance.handlers[eventName].call(this.componentInstance, e, payload);
+        }
+      };
+
+      constructor() {
+        super();
+
+        this.componentState.setState(() => config.defaultState);
+
+        this.componentInstance.props = this.componentInstance.props || [];
+
+        for (let i = 0; i < this.componentInstance.props.length; i++) {
+          const prop = this.componentInstance.props[i];
+
+          Object.defineProperty(this, prop, {
+            set: value => {
+              this.componentInstance[prop] = value;
+
+              if (this.componentInstance.onPropChanges) {
+                this.componentInstance.onPropChanges(prop);
+              }
+            },
+            get: () => this.componentInstance[prop]
+          });
         }
       }
-    );
-  };
-}
+    }
+  );
+};
