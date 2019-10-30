@@ -35,6 +35,14 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
   customElements.define(
     config.tag,
     class extends HTMLElement implements ElementComponent<T> {
+      private shadow = this.attachShadow({ mode: 'open' });
+
+      private run = (eventName: string, payload: any) => (e: Event) => {
+        if (eventName in this.componentInstance.handlers) {
+          this.componentInstance.handlers[eventName].call(this.componentInstance, e, payload);
+        }
+      };
+
       public componentInjector: Injector = new Injector(
         {
           providers: [
@@ -53,24 +61,19 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
         window.ROOT__INJECTOR__ // The root injector is global
       );
 
-      public componentInstance: ComponentInstance = this.componentInjector.create(componentDef);
-
-      public componentState = this.componentInjector.get(ComponentState);
-
-      private shadow = this.attachShadow({ mode: 'open' });
-
-      private run = (eventName: string, payload: any) => (e: Event) => {
-        if (eventName in this.componentInstance.handlers) {
-          this.componentInstance.handlers[eventName].call(this.componentInstance, e, payload);
-        }
-      };
+      public componentInstance: ComponentInstance;
+      public componentState: ComponentState<T>;
 
       constructor() {
         super();
 
-        this.componentState.setState(state => state || config.defaultState);
+        render(config.template(config.defaultState as T, this.run), this.shadow);
+
+        this.componentInstance = this.componentInjector.create(componentDef);
 
         this.componentInstance.props = this.componentInstance.props || [];
+
+        this.componentState = this.componentInjector.get(ComponentState);
 
         for (let i = 0; i < this.componentInstance.props.length; i++) {
           const prop = this.componentInstance.props[i];
