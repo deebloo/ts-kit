@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/lit-framework",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "main": "out-browser/public_api.js",
   "sideEffects": false,
   "files": [
