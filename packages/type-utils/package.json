@@ -8,7 +8,6 @@
     "out-node/**/*"
   ],
   "scripts": {
-    "prepublish": "npm run build",
     "test": "ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
     "test:coverage": "nyc -r text -e .ts -x 'src/test/*.spec.ts' npm run test",
     "build:browser": "tsc --outDir out-browser --module es2015",
@@ -28,5 +27,5 @@
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
-  "gitHead": "73b82f825b951aeea21256bb563426b6fb1a917c"
+  "gitHead": "81eba62c8b5b0ca367d9fc145e7f5153dd693510"
 }
