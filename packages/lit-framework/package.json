@@ -22,6 +22,7 @@
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
   "scripts": {
+    "prepublish": "npm run build",
     "start": "webpack-dev-server",
     "build:browser": "tsc --outDir out-browser --module esnext",
     "build": "npm run build:browser"

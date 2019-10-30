@@ -68,7 +68,7 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
       constructor() {
         super();
 
-        this.componentState.setState(() => config.defaultState);
+        this.componentState.setState(state => state || config.defaultState);
 
         this.componentInstance.props = this.componentInstance.props || [];
 
