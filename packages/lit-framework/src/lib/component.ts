@@ -17,13 +17,18 @@ export interface OnPropChanges {
   onPropChanges: (prop: string, value: any) => void;
 }
 
+export interface OnInit {
+  onInit: () => void;
+}
+
 export type ComponentInstance = {
   props: string[];
   handlers: { [key: string]: Function };
   [key: string]: any;
-} & Partial<OnPropChanges>;
+} & Partial<OnPropChanges> &
+  Partial<OnInit>;
 
-interface ElementComponent<T> {
+export interface ElementComponent<T> {
   componentInjector: Injector;
   componentInstance: ComponentInstance;
   componentState: ComponentState<T>;
@@ -62,6 +67,7 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
       );
 
       public componentInstance: ComponentInstance;
+
       public componentState: ComponentState<T>;
 
       constructor() {
@@ -88,6 +94,10 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
             },
             get: () => this.componentInstance[prop]
           });
+
+          if (this.componentInstance.onInit) {
+            this.componentInstance.onInit();
+          }
         }
       }
     }

@@ -6,9 +6,16 @@ declare global {
   }
 }
 
-export * from './lib/app';
-export * from './lib/component';
-export * from './lib/state';
-export * from './lib/prop';
-export * from './lib/el-ref';
-export * from './lib/handle';
+export { createApp, createRouter, Application } from './lib/app';
+export {
+  ComponentConfig,
+  OnPropChanges,
+  OnInit,
+  ComponentInstance,
+  ElementComponent,
+  Component
+} from './lib/component';
+export { State, AppState, ComponentState } from './lib/state';
+export { Prop } from './lib/prop';
+export { ElRef } from './lib/el-ref';
+export { Handle } from './lib/handle';
