@@ -3,22 +3,23 @@ import { Component, html, ElRef, Handle, Prop, State, ComponentState } from '../
 @Component<string>({
   tag: 'todo-form',
   defaultState: '',
+  style: html`
+    <style>
+      :host {
+        display: flex;
+        align-items: center;
+      }
+
+      form {
+        padding: 1rem;
+        background: #fff;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.19), 0 2px 3px rgba(0, 0, 0, 0.23);
+        width: 100%;
+      }
+    </style>
+  `,
   template(state, run) {
     return html`
-      <style>
-        :host {
-          display: flex;
-          align-items: center;
-        }
-
-        form {
-          padding: 1rem;
-          background: #fff;
-          box-shadow: 0 0px 0px rgba(0, 0, 0, 0.19), 0 2px 3px rgba(0, 0, 0, 0.23);
-          width: 100%;
-        }
-      </style>
-
       <form @submit=${run('ON_SUBMIT')}>
         <input name="todo" autocomplete="off" .value=${state} @input=${run('ON_INPUT')} />
 

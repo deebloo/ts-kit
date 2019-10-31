@@ -9,29 +9,30 @@ export interface AppComponentState {
 @Component<AppComponentState>({
   tag: 'app-root',
   defaultState: { todos: [] },
+  style: html`
+    <style>
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        background: #fff;
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.19), 0 2px 3px rgba(0, 0, 0, 0.23);
+      }
+
+      ul li {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+      }
+
+      todo-form {
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+    </style>
+  `,
   template(state, run) {
     return html`
-      <style>
-        ul {
-          list-style-type: none;
-          padding: 0;
-          margin: 0;
-          background: #fff;
-          box-shadow: 0 0px 0px rgba(0, 0, 0, 0.19), 0 2px 3px rgba(0, 0, 0, 0.23);
-        }
-
-        ul li {
-          padding: 0.5rem 1rem;
-          display: flex;
-          align-items: center;
-        }
-
-        todo-form {
-          margin-bottom: 1rem;
-          width: 100%;
-        }
-      </style>
-
       <todo-form @add_todo=${run('ON_ADD_TODO')}></todo-form>
 
       <ul>

@@ -3,10 +3,12 @@ import { TemplateResult, render } from 'lit-html';
 
 import { ComponentState } from './state';
 import { ELEMENT_REF } from './el-ref';
+import { html } from './app';
 
 export interface ComponentConfig<T> {
   tag: string;
   defaultState?: T;
+  style?: TemplateResult;
   template: (
     state: T,
     run: (event: string, ...args: unknown[]) => (e: Event) => void
@@ -50,7 +52,13 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
               provide: ComponentState,
               useFactory: () => {
                 return new ComponentState<T>(
-                  state => render(config.template(state, this.run), this.shadow),
+                  state =>
+                    render(
+                      html`
+                        ${config.style} ${config.template(state, this.run)}
+                      `,
+                      this.shadow
+                    ),
                   config.defaultState as T
                 );
               }
@@ -70,7 +78,12 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
       constructor() {
         super();
 
-        render(config.template(config.defaultState as T, this.run), this.shadow);
+        render(
+          html`
+            ${config.style} ${config.template(config.defaultState as T, this.run)}
+          `,
+          this.shadow
+        );
 
         this.componentInstance = this.componentInjector.create(componentDef);
 
