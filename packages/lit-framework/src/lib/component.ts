@@ -40,15 +40,9 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
   customElements.define(
     config.tag,
     class extends HTMLElement implements ElementComponent<T> {
-      private shadow = this.attachShadow({ mode: 'open' });
-
-      private run = (eventName: string, payload: any) => (e: Event) => {
-        if (eventName in this.componentInstance.handlers) {
-          this.componentInstance.handlers[eventName].call(this.componentInstance, e, payload);
-        }
-      };
-
-      public componentInjector: Injector = new Injector(
+      public componentInstance: ComponentInstance;
+      public componentState: ComponentState<T>;
+      public componentInjector = new Injector(
         {
           providers: [
             { provide: ELEMENT_REF, useFactory: () => this },
@@ -66,9 +60,12 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
         window.ROOT__INJECTOR__ // The root injector is global
       );
 
-      public componentInstance: ComponentInstance;
-
-      public componentState: ComponentState<T>;
+      private shadow = this.attachShadow({ mode: 'open' });
+      private run = (eventName: string, payload: unknown) => (e: Event) => {
+        if (eventName in this.componentInstance.handlers) {
+          this.componentInstance.handlers[eventName].call(this.componentInstance, e, payload);
+        }
+      };
 
       constructor() {
         super();
@@ -94,10 +91,10 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
             },
             get: () => this.componentInstance[prop]
           });
+        }
 
-          if (this.componentInstance.onInit) {
-            this.componentInstance.onInit();
-          }
+        if (this.componentInstance.onInit) {
+          this.componentInstance.onInit();
         }
       }
     }

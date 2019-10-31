@@ -1,14 +1,5 @@
-import { createRouter, createApp } from '../public_api';
+import './app.component';
 
-const router = createRouter([
-  {
-    path: '/home',
-    load: () => import('./app.component').then(() => document.createElement('app-root'))
-  },
-  { path: '*', redirectTo: '/home' }
-]);
+import { bootstrapApplication } from '../public_api';
 
-createApp({
-  host: document.body,
-  features: [router]
-});
+bootstrapApplication();

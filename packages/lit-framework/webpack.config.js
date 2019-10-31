@@ -1,6 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: 'production',
@@ -28,11 +26,5 @@ module.exports = {
     historyApiFallback: {
       index: 'index.html'
     }
-  },
-  plugins: [
-    // new HtmlWebpackPlugin({
-    //   inject: true,
-    //   template: path.resolve(__dirname, 'index.html')
-    // })
-  ]
+  }
 };

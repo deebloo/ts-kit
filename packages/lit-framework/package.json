@@ -30,8 +30,5 @@
     "@ts-kit/di": "*",
     "lit-html": "^1.1.2"
   },
-  "dependencies": {
-    "page": "^1.11.5"
-  },
   "gitHead": "5311e9106073cfa598d2dee4372bba1503697bd5"
 }
