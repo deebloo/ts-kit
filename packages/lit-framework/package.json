@@ -22,7 +22,7 @@
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "test": "karma start",
     "build:browser": "tsc --outDir out-browser --module esnext",
     "build": "npm run build:browser"
   },

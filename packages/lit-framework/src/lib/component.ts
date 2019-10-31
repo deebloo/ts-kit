@@ -5,14 +5,16 @@ import { ComponentState } from './state';
 import { ELEMENT_REF } from './el-ref';
 import { html } from './app';
 
+type TemplateDef<T> = (
+  state: T,
+  run: (event: string, ...args: unknown[]) => (e: Event) => void
+) => TemplateResult;
+
 export interface ComponentConfig<T> {
   tag: string;
+  template: TemplateDef<T>;
   defaultState?: T;
   style?: TemplateResult;
-  template: (
-    state: T,
-    run: (event: string, ...args: unknown[]) => (e: Event) => void
-  ) => TemplateResult;
 }
 
 export interface OnPropChanges {
