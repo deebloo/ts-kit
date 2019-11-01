@@ -12,8 +12,9 @@ export {
   OnPropChanges,
   OnInit,
   ComponentInstance,
-  ComponentElement,
-  Component
+  ElementInstance,
+  Component,
+  createComponent
 } from './lib/component';
 export { State, AppState, ComponentState } from './lib/state';
 export { Prop } from './lib/prop';
