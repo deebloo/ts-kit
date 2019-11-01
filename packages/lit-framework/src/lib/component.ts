@@ -32,18 +32,21 @@ export type ComponentInstance = {
 } & Partial<OnPropChanges> &
   Partial<OnInit>;
 
-export interface ElementComponent<T> {
+export interface ComponentElement<T> {
   componentInjector: Injector;
   componentInstance: ComponentInstance;
   componentState: ComponentState<T>;
 }
+
+export const ComponentElement = <T>(element: HTMLElement) =>
+  (element as any) as ComponentElement<T>;
 
 export const Component = <T = any>(config: ComponentConfig<T>) => (
   componentDef: ClassProviderToken<any>
 ) => {
   customElements.define(
     config.tag,
-    class extends HTMLElement implements ElementComponent<T> {
+    class extends HTMLElement implements ComponentElement<T> {
       public componentInstance: ComponentInstance;
       public componentState: ComponentState<T>;
       public componentInjector = new Injector(

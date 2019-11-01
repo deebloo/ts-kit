@@ -12,7 +12,7 @@ export {
   OnPropChanges,
   OnInit,
   ComponentInstance,
-  ElementComponent,
+  ComponentElement,
   Component
 } from './lib/component';
 export { State, AppState, ComponentState } from './lib/state';
