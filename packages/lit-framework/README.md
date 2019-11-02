@@ -28,7 +28,7 @@ import { html } from 'lit-html';
   }
 })
 class HelloWorldComponent {
-  constructor(@state() private state: ComponentState<number>) {}
+  constructor(@State() private state: ComponentState<number>) {}
   
   @Handle('INCREMENT') onIncrement() {
     this.state.setState(state => state + 1);
