@@ -1,101 +1,40 @@
-# Di
+# lit-framework
 
-Dependency Injection in ~800 bytes
+A small frameworking for building web components using lit-html
 
 #### Installation:
 
 ```BASH
-npm i @ts-kit/di
+npm i @ts-kit/lit-framework @ts-kit/di lit-html
 ```
 
 #### Example:
 
 ```TS
-import { Injector, Inject } from '@ts-kit/di';
+import { Component, State, ComponentState, Handle } from '@ts-kit/lit-framework';
+import { html } from 'lit-html';
 
-// Write a plain ol JS class
-class FooService {
-  sayHello() {
-    return 'Hello From FooService';
+@Component<number>({
+  tag: 'hello-world',
+  defaultState: 0,
+  template(state, run) {
+    return html`
+     <button @click=${run('DECREMENT')}>Decrement</button>
+     
+     ${state}
+     
+     <button @click=${run('INCREMENT')}>Increment</button>
+    `
+  }
+})
+class HelloWorldComponent {
+  constructor(@state() private state: ComponentState<number>) {}
+  
+  @Handle('INCREMENT') onIncrement() {
+    this.state.setState(state => state + 1);
+  }
+  
+  @Handle('DECREMENT') onDecrement() {
+    this.state.setState(state => state - 1);
   }
 }
-
-// Declare that class as a static dependency of another class
-class BarService {
-  // an instance of that class will be passed to this one;
-  constructor(
-    @Inject(FooService) private foo: FooService
-  ) {}
-
-  sayHello() {
-    return 'Hello From BarService and ' + this.foo.sayHello();
-  }
-}
-
-// create a new instance of our injector
-const app = new Injector();
-
-// Use that injector to create new instances of objects
-app.get(BarService).sayHello(); // Hello from BarService and Hello from FooService
-```
-
-#### Override A Service:
-
-```TS
-import { Injector, Inject } from '@ts-kit/di';
-
-class FooService {
-  sayHello() {
-    return 'Hello From FooService';
-  }
-}
-
-class BarService {
-  constructor(
-    @Inject(FooService) private foo: FooService
-  ) {}
-
-  sayHello() {
-    return 'Hello From BarService and ' + this.foo.sayHello();
-  }
-}
-
-// Override FooService with an alternate implementation
-const app = new Injector({
-  providers: [
-    { provide: FooService, useFactory: () => ({sayHello: () => 'IT HAS BEEN OVERRIDEN' } as FooService) }
-  ]
-});
-
-app.get(BarService).sayHello(); // Hello from BarService and IT HAS BEEN OVERRIDEN
-```
-
-#### Inject services with custom decorators:
-
-```TS
-import { Injector, Inject } from '@ts-kit/di';
-
-class FooService {
-  sayHello() {
-    return 'Hello From FooService';
-  }
-}
-
-const Foo = () => (c: any, k: string, i: number) => Inject(FooService)(c, k, i);
-
-class BarService {
-  // Use custom decorator to provide FooService
-  constructor(
-    @Foo() private foo: FooService
-  ) {}
-
-  sayHello() {
-    return 'Hello From BarService and ' + this.foo.sayHello();
-  }
-}
-
-// create a new instance of our injector
-const app = new Injector();
-
-app.get(BarService).sayHello(); // Hello from BarService and Hello from FooService
-```
