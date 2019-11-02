@@ -3,11 +3,11 @@
 A small frameworking for building web components using lit-html
 
 Goals
-[] Small (~7k for todo app)
-[] uses standards (custom elements and shadow dom)
-[] component template can ONLY be updated by calling set state. no exceptions
-[] Uses dependency Injection 
-[] Component and Custom Element are Separate. (Your should be able to test component code without creating the custom element)
+* [ ] Small (~7k for todo app)
+* [ ] uses standards (custom elements and shadow dom)
+* [ ] component template can ONLY be updated by calling set state. no exceptions
+* [ ] Uses dependency Injection 
+* [ ] Component and Custom Element are Separate. (Your should be able to test component code without creating the custom element)
 
 #### Installation:
 
