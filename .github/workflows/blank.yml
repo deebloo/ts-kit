@@ -12,8 +12,8 @@ jobs:
       - name: Bootstrap
         run: npm i lerna && npx lerna bootstrap
 
-      - name: Test
-        run: npm run test
-
       - name: Build
         run: npm run build
+
+      - name: Test
+        run: npm run test
