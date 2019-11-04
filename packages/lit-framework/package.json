@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/lit-framework",
-  "version": "3.0.0-alpha.10",
+  "version": "3.0.0-alpha.11",
   "main": "out-browser/public_api.js",
   "sideEffects": false,
   "files": [
@@ -27,8 +27,8 @@
     "build": "npm run build:browser"
   },
   "peerDependencies": {
-    "lit-html": "^1.1.2",
-    "@ts-kit/di": "file:../di"
+    "@ts-kit/di": "file:../di",
+    "lit-html": "^1.1.2"
   },
   "devDependencies": {
     "@ts-kit/di": "file:../di",

@@ -1,6 +1,6 @@
 {
   "name": "@ts-kit/type-utils",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.11",
   "main": "out-node/public_api.js",
   "browser": "out-browser/public_api.js",
   "files": [
