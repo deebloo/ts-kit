@@ -21,13 +21,17 @@
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
-  "dependencies": {
-    "@ts-kit/di": "file:../di"
+  "scripts": {
+    "prepare": "npm run build",
+    "build:browser": "tsc --outDir out-browser --module es2015",
+    "build": "npm run build:browser"
   },
   "peerDependencies": {
-    "lit-html": "^1.1.2"
+    "lit-html": "^1.1.2",
+    "@ts-kit/di": "file:../di"
   },
   "devDependencies": {
+    "@ts-kit/di": "file:../di",
     "@types/jasmine": "^3.4.1",
     "@types/node": "^12.12.3",
     "jasmine": "^3.5.0",

@@ -7,11 +7,10 @@
     "url": "git+https://github.com/deebloo/ts-kit.git"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap",
+    "postinstall": "lerna exec npm install",
     "test": "lerna run test --stream",
     "test:coverage": "lerna run test:coverage --stream",
-    "build": "lerna run build --stream",
-    "publish": "lerna publish"
+    "build": "lerna run build --stream"
   },
   "author": "deebloo",
   "license": "MIT",
@@ -19,9 +18,20 @@
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
   "devDependencies": {
-    "husky": "^3.0.9",
+    "husky": "^3.0.3",
     "lerna": "^3.16.4",
     "lint-staged": "^9.2.1",
-    "prettier": "^1.15.2"
+    "prettier": "^1.16.4"
+  },
+  "lint-staged": {
+    "*.{js,ts,json,css,md,html}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

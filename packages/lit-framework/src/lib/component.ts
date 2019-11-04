@@ -1,9 +1,8 @@
 import { Injector, ClassProviderToken } from '@ts-kit/di';
-import { TemplateResult, render } from 'lit-html';
+import { TemplateResult, render, html } from 'lit-html';
 
 import { ComponentState } from './state';
 import { ELEMENT_REF } from './el-ref';
-import { html } from './app';
 
 type TemplateDef<T> = (
   state: T,
