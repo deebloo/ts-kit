@@ -8,7 +8,8 @@
     "out-node/**/*"
   ],
   "scripts": {
-    "test": "ts-node ../../node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
+    "prepublish": "npm run build",
+    "test": "ts-node node_modules/jasmine/bin/jasmine src/test/*.spec.ts",
     "test:coverage": "nyc -r text -e .ts -x 'src/test/*.spec.ts' npm run test",
     "build:browser": "tsc --outDir out-browser --module es2015",
     "build:node": "tsc --outDir out-node --module commonjs",

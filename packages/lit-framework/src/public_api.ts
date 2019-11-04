@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-export { bootstrapApplication, html } from './lib/app';
+export { bootstrapApplication } from './lib/app';
 export {
   ComponentConfig,
   OnPropChanges,

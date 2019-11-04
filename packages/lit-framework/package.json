@@ -21,17 +21,13 @@
   "bugs": {
     "url": "https://github.com/deebloo/ts-kit/issues"
   },
-  "scripts": {
-    "test": "karma start",
-    "build:browser": "tsc --outDir out-browser --module esnext",
-    "build": "npm run build:browser"
+  "dependencies": {
+    "@ts-kit/di": "file:../di"
   },
   "peerDependencies": {
-    "@ts-kit/di": "file:../di",
     "lit-html": "^1.1.2"
   },
   "devDependencies": {
-    "@ts-kit/di": "file:../di",
     "@types/jasmine": "^3.4.1",
     "@types/node": "^12.12.3",
     "jasmine": "^3.5.0",
