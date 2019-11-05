@@ -12,7 +12,7 @@ type TemplateDef<T> = (
 export interface ComponentConfig<T> {
   tag: string;
   template: TemplateDef<T>;
-  defaultState?: T;
+  defaultState: T;
   style?: TemplateResult;
   observedAttributes?: string[];
 }
@@ -79,16 +79,13 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
             {
               provide: ComponentState,
               useFactory: () => {
-                return new ComponentState<T>(
-                  state =>
-                    render(
-                      html`
-                        ${config.style} ${config.template(state, this.run)}
-                      `,
-                      this.shadow
-                    ),
-                  config.defaultState as T
-                );
+                return new ComponentState<T>(state => {
+                  const template = html`
+                    ${config.style} ${config.template(state, this.run)}
+                  `;
+
+                  render(template, this.shadow);
+                }, config.defaultState);
               }
             }
           ]
@@ -106,12 +103,11 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
       constructor() {
         super();
 
-        render(
-          html`
-            ${config.style} ${config.template(config.defaultState as T, this.run)}
-          `,
-          this.shadow
-        );
+        const template = html`
+          ${config.style} ${config.template(config.defaultState, this.run)}
+        `;
+
+        render(template, this.shadow);
 
         this.componentInstance = this.componentInjector.create(componentDef);
 
