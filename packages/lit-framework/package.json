@@ -24,8 +24,7 @@
   "scripts": {
     "prepare": "npm run build",
     "test": "karma start",
-    "build:browser": "tsc --outDir out-browser --module es2015",
-    "build": "npm run build:browser"
+    "build": "tsc --outDir out-browser --module es2015"
   },
   "peerDependencies": {
     "@ts-kit/di": "^3.0.0",
