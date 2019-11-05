@@ -14,6 +14,7 @@ export interface ComponentConfig<T> {
   template: TemplateDef<T>;
   defaultState?: T;
   style?: TemplateResult;
+  observedAttributes?: string[];
 }
 
 export interface OnPropChanges {
@@ -24,13 +25,29 @@ export interface OnInit {
   onInit: () => void;
 }
 
+export interface OnConnected {
+  connectedCallback: () => void;
+}
+
+export interface OnDisconnected {
+  disconnectedCallback: () => void;
+}
+
+export interface OnAttributeChanged {
+  attributeChangedCallback: (attr: string, oldVal: string, newVal: string) => void;
+}
+
 export type ComponentInstance = {
   props: string[];
   handlers: { [key: string]: Function };
   [key: string]: any;
 } & Partial<OnPropChanges> &
-  Partial<OnInit>;
+  Partial<OnInit> &
+  Partial<OnConnected> &
+  Partial<OnDisconnected> &
+  Partial<OnAttributeChanged>;
 
+export const ElementInstance = <T>(element: HTMLElement) => (element as any) as ElementInstance<T>;
 export type ElementInstance<T> = {
   componentInjector: Injector;
   componentInstance: ComponentInstance;
@@ -39,12 +56,8 @@ export type ElementInstance<T> = {
 
 export type ComponentDef<T> = ClassProviderToken<T> & { tag?: string };
 
-export const ElementInstance = <T>(element: HTMLElement) => (element as any) as ElementInstance<T>;
-
-export const createComponent = <S, C>(
-  componentDef: ClassProviderToken<C> & { [key: string]: any }
-) => {
-  return ElementInstance<S>(document.createElement(componentDef.tag));
+export const createComponent = <S, C>(componentDef: ComponentDef<C>) => {
+  return ElementInstance<S>(document.createElement(componentDef.tag as string));
 };
 
 export const Component = <T = any>(config: ComponentConfig<T>) => (
@@ -55,6 +68,8 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
   customElements.define(
     config.tag,
     class extends HTMLElement implements ElementInstance<T> {
+      static observedAttributes = config.observedAttributes;
+
       public componentInstance: ComponentInstance;
       public componentState: ComponentState<T>;
       public componentInjector = new Injector(
@@ -121,6 +136,24 @@ export const Component = <T = any>(config: ComponentConfig<T>) => (
 
         if (this.componentInstance.onInit) {
           this.componentInstance.onInit();
+        }
+      }
+
+      connectedCallback() {
+        if (this.componentInstance.connectedCallback) {
+          this.componentInstance.connectedCallback();
+        }
+      }
+
+      disconnectedCallback() {
+        if (this.componentInstance.disconnectedCallback) {
+          this.componentInstance.disconnectedCallback();
+        }
+      }
+
+      attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+        if (this.componentInstance.attributeChangedCallback) {
+          this.componentInstance.attributeChangedCallback(attrName, oldVal, newVal);
         }
       }
     }
